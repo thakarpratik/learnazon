@@ -4,24 +4,25 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { buildChildTheme, FAVORITE_GAMES } from "@/lib/personalisation";
 
 const MODULES = [
-  { id: "math",     label: "Math",        emoji: "🔢", color: "from-orange-400 to-orange-500", href: "/learn/math"     },
-  { id: "time",     label: "Time",        emoji: "🕐", color: "from-blue-400 to-blue-500",    href: "/learn/time"     },
-  { id: "speaking", label: "Speaking",    emoji: "🎤", color: "from-green-400 to-green-500",  href: "/learn/speaking" },
-  { id: "money",    label: "Money",       emoji: "💰", color: "from-yellow-400 to-yellow-500",href: "/learn/money"    },
-  { id: "words",    label: "Spelling",    emoji: "📝", color: "from-purple-400 to-purple-500",href: "/learn/words"    },
-  { id: "life",     label: "Life Skills", emoji: "🌱", color: "from-pink-400 to-pink-500",    href: "/learn/life"     },
+  { id: "math",     label: "Math",        emoji: "🔢", href: "/learn/math"     },
+  { id: "time",     label: "Time",        emoji: "🕐", href: "/learn/time"     },
+  { id: "speaking", label: "Speaking",    emoji: "🎤", href: "/learn/speaking" },
+  { id: "money",    label: "Money",       emoji: "💰", href: "/learn/money"    },
+  { id: "words",    label: "Spelling",    emoji: "📝", href: "/learn/words"    },
+  { id: "life",     label: "Life Skills", emoji: "🌱", href: "/learn/life"     },
 ];
 
-const AGE_WORLDS: Record<number, { world: string; bg: string }> = {
-  5:  { world: "Wonderland",  bg: "from-pink-200 via-yellow-100 to-green-200"  },
-  6:  { world: "Adventure",   bg: "from-yellow-200 via-orange-100 to-pink-200" },
-  7:  { world: "Explorer",    bg: "from-blue-200 via-purple-100 to-pink-200"   },
-  8:  { world: "Champion",    bg: "from-green-200 via-teal-100 to-blue-200"    },
-  9:  { world: "Discovery",   bg: "from-orange-200 via-yellow-100 to-green-200"},
-  10: { world: "Galaxy",      bg: "from-purple-200 via-blue-100 to-green-200"  },
-};
+const MASCOT_CHEERS = [
+  "You can do it!",
+  "Go go go!",
+  "Amazing work!",
+  "Keep going!",
+  "You're a star!",
+  "Believe in yourself!",
+];
 
 export function ChildDashboard() {
   const { data: session, status } = useSession();
@@ -31,10 +32,12 @@ export function ChildDashboard() {
   const [badges, setBadges] = useState<string[]>([]);
   const [timeOfDay, setTimeOfDay] = useState("morning");
   const [newBadge, setNewBadge] = useState<string | null>(null);
+  const [mascotCheer, setMascotCheer] = useState("");
 
   useEffect(() => {
     const h = new Date().getHours();
     setTimeOfDay(h < 12 ? "morning" : h < 17 ? "afternoon" : "evening");
+    setMascotCheer(MASCOT_CHEERS[Math.floor(Math.random() * MASCOT_CHEERS.length)]);
   }, []);
 
   useEffect(() => {
@@ -63,10 +66,10 @@ export function ChildDashboard() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F5F7FA" }}>
         <div className="text-center">
           <div className="text-6xl animate-bounce-slow">🌟</div>
-          <p className="font-fredoka text-2xl text-orange-500 mt-4">Loading your world…</p>
+          <p className="font-fredoka text-2xl mt-4" style={{ color: "#3D5AFE" }}>Loading your world…</p>
         </div>
       </div>
     );
@@ -74,96 +77,153 @@ export function ChildDashboard() {
 
   const user = session?.user as any;
   const age = user?.age ?? 7;
-  const name = user?.name ?? "Learner";
-  const avatar = user?.avatar ?? "🦊";
-  const worldInfo = AGE_WORLDS[age] ?? AGE_WORLDS[7];
-  const greetings: Record<string, string> = { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" };
+  const displayName = user?.nickname ?? user?.name ?? "Learner";
+  const theme = buildChildTheme({
+    favoriteColor: user?.favoriteColor,
+    favoriteAnimal: user?.favoriteAnimal,
+    favoriteGame: user?.favoriteGame,
+    age,
+  });
+
+  const mascotDisplayName = user?.mascotName ? `${theme.animal} ${user.mascotName}` : theme.animal;
+  const favoriteGameData = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
+
+  const greetings: Record<string, string> = {
+    morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening",
+  };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${worldInfo.bg}`}>
+    <div className="min-h-screen" style={{ background: `linear-gradient(160deg, ${theme.lightBg} 0%, #F5F7FA 40%, ${theme.mediumBg} 100%)` }}>
+
       {/* Badge celebration overlay */}
       {newBadge && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={() => setNewBadge(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setNewBadge(null)}>
           <div className="bg-white rounded-3xl p-10 text-center shadow-2xl mx-4 animate-bounce-slow">
             <div className="text-7xl mb-4">🏆</div>
             <h2 className="font-fredoka text-3xl font-bold text-gray-800 mb-2">New Badge!</h2>
             <p className="text-gray-500 mb-4">{newBadge.replace(/_/g, " ")}</p>
-            <button className="btn-primary" onClick={() => setNewBadge(null)}>Awesome! 🎉</button>
+            <button className="py-3 px-8 rounded-full font-bold text-white text-lg"
+              style={{ backgroundColor: theme.color }} onClick={() => setNewBadge(null)}>
+              Awesome! 🎉
+            </button>
           </div>
         </div>
       )}
 
       {/* Header */}
-      <header className="px-4 pt-6 pb-4 flex items-center justify-between max-w-2xl mx-auto">
-        <div className="flex items-center gap-3">
-          <span className="text-5xl">{avatar}</span>
-          <div>
-            <p className="text-sm font-semibold text-gray-500">{greetings[timeOfDay]},</p>
-            <h1 className="font-fredoka text-2xl font-bold text-gray-800">{name}! 👋</h1>
+      <header className="px-4 pt-6 pb-4 max-w-2xl mx-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <span className="text-5xl">{theme.animal}</span>
+              {streak >= 3 && <span className="absolute -top-1 -right-1 text-sm">🔥</span>}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-400">{greetings[timeOfDay]},</p>
+              <h1 className="font-fredoka text-2xl font-bold text-gray-800">{displayName}! 👋</h1>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link href="/rewards"
-            className="flex items-center gap-1.5 bg-yellow-100 border border-yellow-300 rounded-full px-4 py-2 font-bold text-yellow-700 text-sm hover:bg-yellow-200 transition-colors"
-            aria-label={`${stars} stars — view rewards`}>
-            ⭐ {stars}
-          </Link>
-          <div className="flex items-center gap-1.5 bg-orange-100 border border-orange-300 rounded-full px-4 py-2 font-bold text-orange-700 text-sm"
-            aria-label={`${streak} day streak`}>
-            🔥 {streak}
-          </div>
-          {badges.length > 0 && (
-            <Link href="/rewards" className="flex items-center gap-1.5 bg-purple-100 border border-purple-300 rounded-full px-3 py-2 font-bold text-purple-700 text-sm hover:bg-purple-200 transition-colors">
-              🏆 {badges.length}
+
+          {/* Stats pills */}
+          <div className="flex items-center gap-2">
+            <Link href="/rewards"
+              className="flex items-center gap-1.5 rounded-full px-4 py-2 font-bold text-sm transition-colors"
+              style={{ backgroundColor: theme.lightBg, color: theme.color, border: `1px solid ${theme.border}` }}
+              aria-label={`${stars} stars`}>
+              ⭐ {stars}
             </Link>
-          )}
+            <div className="flex items-center gap-1.5 rounded-full px-4 py-2 font-bold text-sm"
+              style={{ backgroundColor: "#FFF3E0", color: "#E65100", border: "1px solid #FFB74D" }}
+              aria-label={`${streak} day streak`}>
+              🔥 {streak}
+            </div>
+          </div>
         </div>
       </header>
 
       {/* World banner */}
-      <div className="max-w-2xl mx-auto px-4 mb-8">
-        <div className="bg-white/60 backdrop-blur rounded-3xl p-6 text-center border border-white/80 shadow-card">
-          <p className="font-fredoka text-3xl md:text-4xl font-bold text-gray-800 mb-1">
-            {worldInfo.world} World 🌍
-          </p>
-          <p className="text-gray-500 font-medium">Age {age} adventure — pick a subject to play!</p>
-          {streak >= 3 && (
-            <div className="mt-3 inline-flex items-center gap-2 bg-orange-100 text-orange-700 rounded-full px-4 py-1.5 text-sm font-bold">
-              🔥 {streak} day streak — keep it up!
+      <div className="max-w-2xl mx-auto px-4 mb-6">
+        <div className="rounded-3xl p-6 border"
+          style={{ background: `linear-gradient(135deg, ${theme.lightBg}, white)`, borderColor: theme.border }}>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-fredoka text-3xl font-bold text-gray-800">
+                {theme.world} World 🌍
+              </p>
+              <p className="text-gray-400 text-sm mt-1">
+                Age {age} adventure • Pick a subject to play!
+              </p>
+              {favoriteGameData && (
+                <p className="text-xs font-semibold mt-2 flex items-center gap-1"
+                  style={{ color: theme.color }}>
+                  {favoriteGameData.emoji} {favoriteGameData.label} fan
+                </p>
+              )}
             </div>
-          )}
+            {/* Mascot bubble */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                <div className="absolute -top-8 right-0 bg-white rounded-2xl px-3 py-1.5 text-xs font-bold shadow-md whitespace-nowrap"
+                  style={{ color: theme.color, border: `1px solid ${theme.border}` }}>
+                  {mascotCheer}
+                  <div className="absolute bottom-[-6px] right-4 w-3 h-3 bg-white rotate-45"
+                    style={{ borderRight: `1px solid ${theme.border}`, borderBottom: `1px solid ${theme.border}` }} />
+                </div>
+                <span className="text-5xl">{theme.animal}</span>
+              </div>
+              {user?.mascotName && (
+                <p className="text-xs text-gray-400 mt-1 font-semibold">{user.mascotName}</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Module grid */}
       <main className="max-w-2xl mx-auto px-4 pb-10">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6" role="list" aria-label="Learning modules">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
           {MODULES.map((mod) => (
-            <Link key={mod.id} href={mod.href} role="listitem"
-              className="group bg-white rounded-3xl shadow-card border border-white/80 overflow-hidden hover:shadow-hover hover:-translate-y-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-300"
+            <Link key={mod.id} href={mod.href}
+              className="group bg-white rounded-3xl overflow-hidden transition-all duration-200 focus-visible:outline-none"
+              style={{
+                border: `2px solid ${theme.border}`,
+                boxShadow: `0 4px 16px ${theme.color}10`,
+              }}
               aria-label={`Go to ${mod.label}`}>
-              <div className={`bg-gradient-to-br ${mod.color} p-6 flex items-center justify-center`}>
-                <span className="text-5xl group-hover:scale-110 transition-transform duration-200" aria-hidden="true">
-                  {mod.emoji}
-                </span>
+              {/* Module header with theme colour */}
+              <div className="p-6 flex items-center justify-center transition-all duration-200 group-hover:scale-105"
+                style={{ background: `linear-gradient(135deg, ${theme.color}20, ${theme.color}35)` }}>
+                <span className="text-5xl group-hover:scale-110 transition-transform duration-200">{mod.emoji}</span>
               </div>
               <div className="p-4 text-center">
                 <p className="font-fredoka text-lg font-bold text-gray-800">{mod.label}</p>
               </div>
+              {/* Active indicator */}
+              <div className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-3xl"
+                style={{ backgroundColor: theme.color }} />
             </Link>
           ))}
         </div>
 
-        {/* Daily challenge */}
-        <div className="bg-white/70 backdrop-blur rounded-3xl p-5 border border-white/80 flex items-center gap-4">
-          <span className="text-4xl" aria-hidden="true">🎯</span>
+        {/* Daily streak nudge */}
+        <div className="rounded-3xl p-5 border flex items-center gap-4"
+          style={{ background: `linear-gradient(135deg, white, ${theme.lightBg})`, borderColor: theme.border }}>
+          <span className="text-4xl">{theme.animal}</span>
           <div>
-            <p className="font-fredoka text-lg font-bold text-gray-800">Daily Challenge</p>
-            <p className="text-sm text-gray-500">
-              {streak > 0 ? `${streak} day streak — play today to keep it going!` : "Complete 3 activities to start a streak!"}
+            <p className="font-fredoka text-lg font-bold text-gray-800">
+              {streak > 0 ? `${streak}-day streak! Keep it going!` : "Start your streak today!"}
+            </p>
+            <p className="text-sm text-gray-400">
+              {streak > 0
+                ? `${mascotDisplayName} is so proud of you 🎉`
+                : `Complete an activity and ${mascotDisplayName} will cheer for you!`}
             </p>
           </div>
+          {streak >= 3 && (
+            <div className="ml-auto font-fredoka text-2xl font-bold" style={{ color: theme.color }}>
+              🔥{streak}
+            </div>
+          )}
         </div>
       </main>
     </div>

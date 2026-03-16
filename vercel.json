@@ -1,19 +1,5 @@
 {
   "buildCommand": "npx prisma generate && next build",
   "installCommand": "npm install",
-  "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "NEXTAUTH_URL": "@nextauth_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "DATABASE_URL": "@database_url",
-    "DIRECT_URL": "@direct_url",
-    "ANTHROPIC_API_KEY": "@anthropic_api_key",
-    "RESEND_API_KEY": "@resend_api_key",
-    "STRIPE_SECRET_KEY": "@stripe_secret_key",
-    "STRIPE_WEBHOOK_SECRET": "@stripe_webhook_secret",
-    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@next_public_stripe_publishable_key",
-    "NEXT_PUBLIC_APP_URL": "@next_public_app_url",
-    "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME": "@next_public_cloudinary_cloud_name"
-  }
+  "framework": "nextjs"
 }

@@ -1,26 +1,29 @@
 export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import Anthropic from "@anthropic-ai/sdk";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { buildAIContext } from "@/lib/personalisation";
 
 const aiSchema = z.object({
-  childAge: z.number().int().min(5).max(10),
-  module: z.enum(["MATH", "TIME_TELLING", "PUBLIC_SPEAKING", "MONEY", "SPELLING", "LIFE_SKILLS"]),
-  context: z.string().max(500),
-  question: z.string().max(500),
+  childAge:  z.number().int().min(5).max(10),
+  module:    z.enum(["MATH","TIME_TELLING","PUBLIC_SPEAKING","MONEY","SPELLING","LIFE_SKILLS"]),
+  context:   z.string().max(500),
+  question:  z.string().max(500),
 });
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const AGE_PERSONAS: Record<number, string> = {
-  5: "You are a warm, patient tutor for a 5-year-old. Use very simple words, lots of encouragement, and short sentences. Use fun emojis. Never say anything scary or complicated.",
-  6: "You are a friendly tutor for a 6-year-old. Keep language simple and cheerful. Use examples they'd know like toys, food, and animals.",
-  7: "You are an encouraging tutor for a 7-year-old. Be enthusiastic and playful. Give simple explanations with relatable examples.",
-  8: "You are an enthusiastic tutor for an 8-year-old. You can use slightly more complex words but keep things fun and encouraging.",
-  9: "You are a helpful tutor for a 9-year-old. You can explain concepts clearly with real-world examples. Stay positive and encouraging.",
-  10: "You are a knowledgeable tutor for a 10-year-old. You can use proper vocabulary and give detailed but friendly explanations.",
+  5:  "You are tutoring a 5-year-old. Use very simple words, lots of encouragement, and short sentences.",
+  6:  "You are tutoring a 6-year-old. Keep language simple and cheerful with relatable examples.",
+  7:  "You are tutoring a 7-year-old. Be enthusiastic and playful with simple explanations.",
+  8:  "You are tutoring an 8-year-old. Use slightly more complex words but stay fun and encouraging.",
+  9:  "You are tutoring a 9-year-old. Give clear explanations with real-world examples.",
+  10: "You are tutoring a 10-year-old. Use proper vocabulary with friendly, detailed explanations.",
 };
 
 export async function POST(req: NextRequest) {
@@ -35,20 +38,39 @@ export async function POST(req: NextRequest) {
     }
 
     const { childAge, module, context, question } = parsed.data;
-    const persona = AGE_PERSONAS[childAge] ?? AGE_PERSONAS[7];
 
-    const systemPrompt = `${persona}
+    // Fetch child personalisation if available
+    const childId = (session.user as any).id;
+    const role    = (session.user as any).role;
+    let childData: any = null;
 
-You are helping a child learn ${module.replace("_", " ").toLowerCase()}.
+    if (role === "child") {
+      try {
+        childData = await prisma.child.findUnique({
+          where: { id: childId },
+          select: { name: true, nickname: true, favoriteGame: true, learningStyle: true, favoriteAnimal: true, mascotName: true, age: true },
+        });
+      } catch (e) { /* non-fatal */ }
+    }
+
+    const basePersona = AGE_PERSONAS[childAge] ?? AGE_PERSONAS[7];
+    const personalisedContext = childData
+      ? buildAIContext({ ...childData, age: childAge }, module)
+      : "";
+
+    const systemPrompt = `${basePersona}
+${personalisedContext}
+
+Subject: ${module.replace(/_/g, " ").toLowerCase()}
 Current context: ${context}
 
 Rules:
-- Keep responses SHORT (2-4 sentences max)
-- Always be encouraging, never make them feel bad
-- If they get something wrong, gently guide them to the right answer
-- Use age-appropriate language for a ${childAge}-year-old
-- Add 1-2 fun emojis to make it friendly
-- Never give the answer directly — guide them to discover it`;
+- Keep responses SHORT — 2–4 sentences maximum
+- NEVER give the answer directly — guide them to discover it
+- Always be encouraging, never make the child feel bad
+- Use 1–2 fun emojis to keep it friendly
+- If they got it wrong, gently redirect with a helpful clue
+- Reference their favourite game or mascot naturally when relevant`;
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-20250514",
