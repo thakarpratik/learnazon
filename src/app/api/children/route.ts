@@ -8,10 +8,16 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 
 const childSchema = z.object({
-  name: z.string().min(1).max(50),
-  age: z.number().int().min(5).max(10),
-  pin: z.string().length(4).regex(/^\d{4}$/),
-  avatar: z.string().optional(),
+  name:          z.string().min(1).max(50),
+  nickname:      z.string().max(30).nullable().optional(),
+  age:           z.number().int().min(5).max(10),
+  pin:           z.string().length(4).regex(/^\d{4}$/),
+  avatar:        z.string().optional(),
+  favoriteColor: z.string().optional(),
+  favoriteAnimal:z.string().optional(),
+  favoriteGame:  z.string().nullable().optional(),
+  learningStyle: z.string().nullable().optional(),
+  mascotName:    z.string().max(30).nullable().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -26,15 +32,29 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json({ message: parsed.error.issues[0]?.message ?? "Invalid input" }, { status: 400 });
     }
-    const { name, age, pin, avatar } = parsed.data;
+
+    const { name, nickname, age, pin, avatar, favoriteColor, favoriteAnimal, favoriteGame, learningStyle, mascotName } = parsed.data;
     const pinHash = await hash(pin, 12);
+
     const child = await prisma.child.create({
-      data: { parentId, name, age, pin: pinHash, avatar: avatar ?? "🦊" },
-      select: { id: true, name: true, age: true, avatar: true },
+      data: {
+        parentId, name, nickname, age, pin: pinHash,
+        avatar: avatar ?? favoriteAnimal ?? "🌟",
+        favoriteColor: favoriteColor ?? "#3D5AFE",
+        favoriteAnimal: favoriteAnimal ?? "🌟",
+        favoriteGame: favoriteGame ?? null,
+        learningStyle: learningStyle ?? "nurture",
+        mascotName: mascotName ?? null,
+      },
+      select: { id: true, name: true, nickname: true, age: true, avatar: true, favoriteColor: true, favoriteAnimal: true, favoriteGame: true, learningStyle: true, mascotName: true },
     });
+
     // Init stars + streak
-    await prisma.stars.create({ data: { childId: child.id } });
-    await prisma.streak.create({ data: { childId: child.id } });
+    await Promise.all([
+      prisma.stars.create({ data: { childId: child.id } }),
+      prisma.streak.create({ data: { childId: child.id } }),
+    ]);
+
     return NextResponse.json({ child }, { status: 201 });
   } catch (err) {
     console.error("[children POST]", err);
@@ -51,7 +71,7 @@ export async function GET(req: NextRequest) {
     const parentId = (session.user as any).id;
     const children = await prisma.child.findMany({
       where: { parentId },
-      select: { id: true, name: true, age: true, avatar: true, createdAt: true },
+      select: { id: true, name: true, nickname: true, age: true, avatar: true, favoriteColor: true, favoriteAnimal: true, favoriteGame: true, learningStyle: true, mascotName: true, createdAt: true },
       orderBy: { createdAt: "asc" },
     });
     return NextResponse.json({ children });
