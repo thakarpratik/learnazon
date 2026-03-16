@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ── New Brand Palette ── */
+  --color-blue:    #3D5AFE;
+  --color-yellow:  #FFC107;
+  --color-green:   #00E676;
+  --color-purple:  #7C4DFF;
+  --color-bg:      #F5F7FA;
+  --color-white:   #FFFFFF;
+  --color-text:    #1A1A2E;
+  --color-muted:   #6B7280;
+  --color-border:  #E2E8F0;
+
+  /* Derived */
+  --color-blue-light:   #EEF1FF;
+  --color-blue-dark:    #2541E0;
+  --color-yellow-light: #FFF8E1;
+  --color-yellow-dark:  #E6AC00;
+  --color-green-light:  #E8FFF4;
+  --color-green-dark:   #00C060;
+  --color-purple-light: #F3EEFF;
+  --color-purple-dark:  #6535E8;
+
+  /* Shadows */
+  --shadow-fun:  4px 4px 0px rgba(61,90,254,0.2);
+  --shadow-card: 0 4px 24px rgba(61,90,254,0.08);
+  --shadow-hover:0 8px 32px rgba(61,90,254,0.15);
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-nunito), sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-fredoka), sans-serif;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-yellow);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  img { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  /* ── Primary CTA — Mango Yellow ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full
+           font-bold text-lg cursor-pointer transition-all duration-150
+           focus-visible:ring-4 focus-visible:ring-yellow-300;
+    background-color: var(--color-yellow);
+    color: var(--color-text);
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-yellow-dark);
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+  }
+
+  /* ── Secondary — Blue outline ── */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full
+           font-bold text-lg cursor-pointer transition-all duration-150;
+    background-color: var(--color-white);
+    color: var(--color-blue);
+    border: 2px solid var(--color-blue);
+    box-shadow: 4px 4px 0px rgba(61,90,254,0.15);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-blue-light);
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px rgba(61,90,254,0.15);
+  }
+
+  /* ── Card ── */
+  .card {
+    @apply bg-white rounded-[20px] transition-shadow duration-200;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* ── Section container ── */
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Success state ── */
+  .state-correct {
+    background-color: var(--color-green-light);
+    border-color: var(--color-green);
+    color: #006633;
+  }
+
+  /* ── Wrong state ── */
+  .state-wrong {
+    background-color: #FFF0F0;
+    border-color: #FF5252;
+    color: #C00000;
+  }
+}
+
+/* ── Animations ── */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50%       { transform: rotate(3deg); }
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-8px) rotate(2deg); }
+  66%       { transform: translateY(4px) rotate(-2deg); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(61,90,254,0.4); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 12px rgba(61,90,254,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(61,90,254,0); }
+}
+
+.animate-wiggle      { animation: wiggle 2s ease-in-out infinite; }
+.animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
+.animate-float       { animation: float 6s ease-in-out infinite; }
+.animate-pulse-ring  { animation: pulse-ring 2s ease-in-out infinite; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border-width: 0;
+}

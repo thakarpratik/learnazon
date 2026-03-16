@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Parent account ────────────────────────────────────────────────────────────
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  name         String?
+  plan         Plan         @default(FREE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  children     Child[]
+  subscription Subscription?
+  sessions     Session[]
+
+  @@index([email])
+}
+
+enum Plan {
+  FREE
+  PRO
+  FAMILY
+}
+
+// ─── Child profile ─────────────────────────────────────────────────────────────
+model Child {
+  id        String     @id @default(cuid())
+  parentId  String
+  parent    User       @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  name      String
+  age       Int        // 5–10
+  pin       String     // bcrypt-hashed 4-digit PIN
+  avatar    String?    // cloudinary URL or emoji key
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  progress  Progress[]
+  streaks   Streak[]
+  badges    Badge[]
+  stars     Stars?
+
+  @@index([parentId])
+}
+
+// ─── Activity result ───────────────────────────────────────────────────────────
+model Progress {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  module    Module
+  score     Int      // 0–100
+  timeTaken Int      // seconds
+  date      DateTime @default(now())
+
+  @@index([childId, module])
+  @@index([childId, date])
+}
+
+enum Module {
+  MATH
+  TIME_TELLING
+  PUBLIC_SPEAKING
+  MONEY
+  SPELLING
+  LIFE_SKILLS
+}
+
+// ─── Daily streaks ─────────────────────────────────────────────────────────────
+model Streak {
+  id             String   @id @default(cuid())
+  childId        String   @unique
+  child          Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  currentStreak  Int      @default(0)
+  longestStreak  Int      @default(0)
+  lastActiveDate DateTime?
+}
+
+// ─── Badges ────────────────────────────────────────────────────────────────────
+model Badge {
+  id        String    @id @default(cuid())
+  childId   String
+  child     Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
+  badgeType BadgeType
+  earnedAt  DateTime  @default(now())
+
+  @@unique([childId, badgeType])
+  @@index([childId])
+}
+
+enum BadgeType {
+  FIRST_STAR
+  MATH_MASTER
+  TIME_WIZARD
+  SPEECH_STAR
+  MONEY_WISE
+  SPELL_BEE
+  LIFE_CHAMP
+  STREAK_3
+  STREAK_7
+  STREAK_30
+  PERFECT_SCORE
+  SPEED_DEMON
+}
+
+// ─── Stars ─────────────────────────────────────────────────────────────────────
+model Stars {
+  id        String @id @default(cuid())
+  childId   String @unique
+  child     Child  @relation(fields: [childId], references: [id], onDelete: Cascade)
+  total     Int    @default(0)
+  thisWeek  Int    @default(0)
+}
+
+// ─── Subscription ──────────────────────────────────────────────────────────────
+model Subscription {
+  id        String             @id @default(cuid())
+  userId    String             @unique
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeId  String             @unique
+  plan      Plan
+  status    SubscriptionStatus
+  renewsAt  DateTime?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+// ─── Auth sessions ─────────────────────────────────────────────────────────────
+model Session {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childId   String?
+  token     String   @unique @default(cuid())
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
