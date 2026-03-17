@@ -1,21 +1,18 @@
 /**
- * Prisma client singleton with pg adapter (Prisma 7+).
- * Uses a Proxy so the client is never instantiated at build time —
- * only on first actual database call at runtime.
+ * Prisma client singleton (Prisma 7 + pg adapter).
+ * Lazy proxy — never instantiates at build time.
  */
 
-type AnyPrismaClient = any;
+const g = globalThis as { _prisma?: unknown };
 
-const g = globalThis as any;
-
-function createPrismaClient(): AnyPrismaClient {
-  const { PrismaClient } = require("@prisma/client");   
-  const { PrismaPg }    = require("@prisma/adapter-pg"); 
+function createPrismaClient() {
+  const { PrismaClient } = require("@prisma/client"); // eslint-disable-line
+  const { PrismaPg } = require("@prisma/adapter-pg"); // eslint-disable-line
 
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
-      "DATABASE_URL is not set. Add it to your .env or .env.local file."
+      "DATABASE_URL is not set. Add it to .env.local (local) or Vercel Environment Variables (production)."
     );
   }
 
@@ -23,12 +20,13 @@ function createPrismaClient(): AnyPrismaClient {
   return new PrismaClient({ adapter });
 }
 
-function getClient(): AnyPrismaClient {
+function getClient() {
   if (!g._prisma) g._prisma = createPrismaClient();
-  return g._prisma;
+  return g._prisma as ReturnType<typeof createPrismaClient>;
 }
 
-export const prisma: AnyPrismaClient = new Proxy(
-  {},
-  { get(_t, prop) { return getClient()[prop]; } }
-);
+export const prisma = new Proxy({} as ReturnType<typeof createPrismaClient>, {
+  get(_t, prop) {
+    return (getClient() as any)[prop]; // eslint-disable-line
+  },
+});
