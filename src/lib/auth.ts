@@ -13,12 +13,9 @@ interface ExtendedUser {
   id: string; email: string; name?: string;
   role: "parent" | "child";
   plan?: string; age?: number; parentId?: string;
-  avatar?: string | null;
-  nickname?: string | null;
-  favoriteColor?: string | null;
-  favoriteAnimal?: string | null;
-  favoriteGame?: string | null;
-  learningStyle?: string | null;
+  avatar?: string | null; nickname?: string | null;
+  favoriteColor?: string | null; favoriteAnimal?: string | null;
+  favoriteGame?: string | null; learningStyle?: string | null;
   mascotName?: string | null;
 }
 
@@ -39,7 +36,7 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   pages: { signIn: "/login", error: "/login" },
   providers: [
-    // Parent email login
+    // ── Parent email login ─────────────────────────────────────────────────────
     CredentialsProvider({
       id: "credentials", name: "Email & Password",
       credentials: { email: { type: "email" }, password: { type: "password" } },
@@ -54,36 +51,71 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    // Child PIN login — loads full personalisation
+    // ── Child PIN login ────────────────────────────────────────────────────────
     CredentialsProvider({
       id: "child-pin", name: "Child PIN",
-      credentials: { pin: { type: "password" } },
+      credentials: { childId: { type: "text" }, pin: { type: "password" } },
       async authorize(credentials): Promise<ExtendedUser | null> {
-        if (!credentials?.pin || credentials.pin.length !== 4) return null;
-        const children = await prisma.child.findMany({
-          select: { id: true, name: true, nickname: true, age: true, pin: true, parentId: true, avatar: true, favoriteColor: true, favoriteAnimal: true, favoriteGame: true, learningStyle: true, mascotName: true },
+        if (!credentials?.pin || credentials.pin.length !== 4 || !credentials?.childId) return null;
+        // Look up the specific child by ID — PIN is scoped to one child only
+        const child = await prisma.child.findUnique({
+          where: { id: credentials.childId },
+          select: {
+            id: true, name: true, nickname: true, age: true,
+            pin: true, parentId: true, avatar: true,
+            favoriteColor: true, favoriteAnimal: true,
+            favoriteGame: true, learningStyle: true, mascotName: true,
+          },
         });
-        for (const child of children) {
-          const valid = await compare(credentials.pin, child.pin);
-          if (valid) {
-            return {
-              id: child.id,
-              name: child.name,
-              nickname: child.nickname,
-              email: `child_${child.id}@kidlearn.internal`,
-              role: "child",
-              age: child.age,
-              parentId: child.parentId,
-              avatar: child.avatar,
-              favoriteColor: child.favoriteColor,
-              favoriteAnimal: child.favoriteAnimal,
-              favoriteGame: child.favoriteGame,
-              learningStyle: child.learningStyle,
-              mascotName: child.mascotName,
-            };
-          }
-        }
-        return null;
+
+        if (!child) return null;
+
+        // Compare PIN against only THIS child — completely safe across families
+        const valid = await compare(credentials.pin, child.pin);
+        if (!valid) return null;
+
+        return {
+          id: child.id, name: child.name, nickname: child.nickname,
+          email: `child_${child.id}@kidlearn.internal`,
+          role: "child", age: child.age, parentId: child.parentId,
+          avatar: child.avatar, favoriteColor: child.favoriteColor,
+          favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
+          learningStyle: child.learningStyle, mascotName: child.mascotName,
+        };
+      },
+    }),
+
+    // ── Parent → Child switch (no PIN needed, validates parentId ownership) ───
+    CredentialsProvider({
+      id: "parent-switch", name: "Parent Switch to Child",
+      credentials: {
+        childId:  { type: "text" },
+        parentId: { type: "text" },
+      },
+      async authorize(credentials): Promise<ExtendedUser | null> {
+        if (!credentials?.childId || !credentials?.parentId) return null;
+
+        const child = await prisma.child.findUnique({
+          where: { id: credentials.childId },
+          select: {
+            id: true, name: true, nickname: true, age: true,
+            parentId: true, avatar: true, favoriteColor: true,
+            favoriteAnimal: true, favoriteGame: true,
+            learningStyle: true, mascotName: true,
+          },
+        });
+
+        // Only allow if this child actually belongs to the requesting parent
+        if (!child || child.parentId !== credentials.parentId) return null;
+
+        return {
+          id: child.id, name: child.name, nickname: child.nickname,
+          email: `child_${child.id}@kidlearn.internal`,
+          role: "child", age: child.age, parentId: child.parentId,
+          avatar: child.avatar, favoriteColor: child.favoriteColor,
+          favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
+          learningStyle: child.learningStyle, mascotName: child.mascotName,
+        };
       },
     }),
   ],

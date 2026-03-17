@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { z } from "zod";
 
 const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email"),
+  name:     z.string().min(2, "Name must be at least 2 characters"),
+  email:    z.string().email("Please enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
@@ -18,6 +19,7 @@ export function SignupForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [step, setStep] = useState<"form" | "signingin">("form");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +38,7 @@ export function SignupForm() {
 
     setLoading(true);
     try {
+      // Step 1: Create the account
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,13 +46,38 @@ export function SignupForm() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message ?? "Signup failed");
+
+      // Step 2: Auto sign in so session is ready immediately
+      setStep("signingin");
+      const signInResult = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        throw new Error("Account created but login failed — please log in manually.");
+      }
+
+      // Step 3: Redirect to add child
       router.push("/parent/children?onboarding=true");
     } catch (err) {
       setApiError(err instanceof Error ? err.message : "Something went wrong");
+      setStep("form");
     } finally {
       setLoading(false);
     }
   };
+
+  if (step === "signingin") {
+    return (
+      <div className="card p-10 text-center">
+        <div className="text-5xl mb-4 animate-bounce-slow">🌟</div>
+        <p className="font-fredoka text-2xl font-bold text-gray-800 mb-2">Account created!</p>
+        <p className="text-gray-400">Logging you in…</p>
+      </div>
+    );
+  }
 
   return (
     <div className="card p-8">
@@ -63,17 +91,15 @@ export function SignupForm() {
         <div className="space-y-5">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-bold text-kidlearn-text mb-2">
+            <label htmlFor="name" className="block text-sm font-bold text-gray-800 mb-2">
               Your name
             </label>
             <input
-              id="name"
-              type="text"
-              autoComplete="name"
+              id="name" type="text" autoComplete="name"
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-              className={`w-full px-4 py-3 rounded-xl border-2 font-medium text-kidlearn-text bg-white focus:outline-none focus:border-brand-blue transition-colors ${
-                errors.name ? "border-red-400 bg-red-50" : "border-gray-200"
+              className={`w-full px-4 py-3 rounded-xl border-2 font-medium bg-white focus:outline-none transition-colors ${
+                errors.name ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-blue-500"
               }`}
               placeholder="Jane Smith"
               aria-describedby={errors.name ? "name-error" : undefined}
@@ -84,17 +110,15 @@ export function SignupForm() {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-bold text-kidlearn-text mb-2">
+            <label htmlFor="email" className="block text-sm font-bold text-gray-800 mb-2">
               Email address
             </label>
             <input
-              id="email"
-              type="email"
-              autoComplete="email"
+              id="email" type="email" autoComplete="email"
               value={form.email}
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className={`w-full px-4 py-3 rounded-xl border-2 font-medium text-kidlearn-text bg-white focus:outline-none focus:border-brand-blue transition-colors ${
-                errors.email ? "border-red-400 bg-red-50" : "border-gray-200"
+              className={`w-full px-4 py-3 rounded-xl border-2 font-medium bg-white focus:outline-none transition-colors ${
+                errors.email ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-blue-500"
               }`}
               placeholder="jane@example.com"
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -105,17 +129,15 @@ export function SignupForm() {
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block text-sm font-bold text-kidlearn-text mb-2">
+            <label htmlFor="password" className="block text-sm font-bold text-gray-800 mb-2">
               Password
             </label>
             <input
-              id="password"
-              type="password"
-              autoComplete="new-password"
+              id="password" type="password" autoComplete="new-password"
               value={form.password}
               onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-              className={`w-full px-4 py-3 rounded-xl border-2 font-medium text-kidlearn-text bg-white focus:outline-none focus:border-brand-blue transition-colors ${
-                errors.password ? "border-red-400 bg-red-50" : "border-gray-200"
+              className={`w-full px-4 py-3 rounded-xl border-2 font-medium bg-white focus:outline-none transition-colors ${
+                errors.password ? "border-red-400 bg-red-50" : "border-gray-200 focus:border-blue-500"
               }`}
               placeholder="At least 8 characters"
               aria-describedby={errors.password ? "password-error" : undefined}
@@ -134,18 +156,16 @@ export function SignupForm() {
           {loading ? "Creating account…" : "Create Free Account 🚀"}
         </button>
 
-        <p className="text-xs text-kidlearn-muted text-center mt-4 leading-relaxed">
+        <p className="text-xs text-gray-500 text-center mt-4 leading-relaxed">
           By signing up you agree to our{" "}
-          <Link href="/terms" className="underline hover:text-brand-blue">Terms</Link>{" "}
+          <Link href="/terms" className="underline hover:text-blue-600">Terms</Link>{" "}
           and{" "}
-          <Link href="/privacy" className="underline hover:text-brand-blue">Privacy Policy</Link>.
+          <Link href="/privacy" className="underline hover:text-blue-600">Privacy Policy</Link>.
         </p>
 
-        <p className="text-sm text-center mt-4 text-kidlearn-muted">
+        <p className="text-sm text-center mt-4 text-gray-500">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-brand-blue hover:underline">
-            Log in
-          </Link>
+          <Link href="/login" className="font-bold text-blue-600 hover:underline">Log in</Link>
         </p>
       </form>
     </div>
