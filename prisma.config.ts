@@ -19,7 +19,6 @@ for (const envPath of envPaths) {
 }
 
 const url = process.env.DATABASE_URL;
-const directUrl = process.env.DIRECT_URL;
 
 if (!url) {
   throw new Error(
@@ -31,6 +30,6 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   datasource: {
     url,
-    shadowDatabaseUrl: directUrl,
+    // shadowDatabaseUrl is only needed for migrate dev, not db push
   },
 });
