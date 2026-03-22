@@ -8,6 +8,7 @@ const g = globalThis as { _prisma?: unknown };
 function createPrismaClient() {
   const { PrismaClient } = require("@prisma/client"); // eslint-disable-line
   const { PrismaPg } = require("@prisma/adapter-pg"); // eslint-disable-line
+  const { Pool } = require("pg"); // eslint-disable-line
 
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -16,7 +17,8 @@ function createPrismaClient() {
     );
   }
 
-  const adapter = new PrismaPg({ connectionString });
+  const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter });
 }
 
