@@ -42,7 +42,14 @@ const MODULES = [
     bg: "#EEF2FF", border: "#6366F1", iconColor: "#3730A3",
     iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
   },
+  {
+    id: "science",  label: "Science",     href: "/learn/science",
+    bg: "#F0FDFA", border: "#14B8A6", iconColor: "#0F766E",
+    iconPath: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21a48.25 48.25 0 01-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5",
+  },
 ] as const;
+
+const DAILY_LIMIT = 3;
 
 const CHEERS = [
   "You can do it!",
@@ -56,12 +63,13 @@ const CHEERS = [
 export function ChildDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [stars, setStars]         = useState(0);
-  const [streak, setStreak]       = useState(0);
-  const [badges, setBadges]       = useState<string[]>([]);
-  const [timeOfDay, setTimeOfDay] = useState("morning");
-  const [newBadge, setNewBadge]   = useState<string | null>(null);
-  const [cheer, setCheer]         = useState("");
+  const [stars, setStars]             = useState(0);
+  const [streak, setStreak]           = useState(0);
+  const [badges, setBadges]           = useState<string[]>([]);
+  const [timeOfDay, setTimeOfDay]     = useState("morning");
+  const [newBadge, setNewBadge]       = useState<string | null>(null);
+  const [cheer, setCheer]             = useState("");
+  const [sessionsToday, setSessionsToday] = useState<number | null>(null);
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -86,6 +94,14 @@ export function ChildDashboard() {
       setStars(data.stars?.total ?? 0);
       setStreak(data.streak?.currentStreak ?? 0);
       setBadges((data.badges ?? []).map((b: any) => b.badgeType));
+
+      // Count today's sessions from returned progress
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayCount = (data.progress ?? []).filter(
+        (p: any) => new Date(p.date) >= today
+      ).length;
+      setSessionsToday(todayCount);
     } catch (e) { console.error(e); }
   }, [session]);
 
@@ -310,48 +326,94 @@ export function ChildDashboard() {
 
       {/* ── Module grid ── */}
       <main className="max-w-2xl mx-auto px-4 pb-10" id="main-content">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mb-5">
-          {MODULES.map((mod) => (
-            <Link
-              key={mod.id}
-              href={mod.href}
-              className="group bg-white rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2"
-              style={{
-                border:     `3px solid ${mod.border}`,
-                boxShadow:  `0 5px 0 ${mod.border}70`,
-              }}
-              aria-label={`Go to ${mod.label}`}
+
+        {/* ── Daily limit reached ── */}
+        {sessionsToday !== null && sessionsToday >= DAILY_LIMIT ? (
+          <div
+            className="rounded-[24px] p-8 text-center mb-5"
+            style={{
+              background: "white",
+              border: "3px solid #818CF8",
+              boxShadow: "0 8px 0 #818CF840",
+            }}
+          >
+            <div className="text-6xl mb-4">🌙</div>
+            <h2 className="font-baloo text-2xl font-extrabold mb-2" style={{ color: "var(--text)" }}>
+              You&apos;re done for today!
+            </h2>
+            <p className="font-medium mb-1" style={{ color: "var(--muted)" }}>
+              That&apos;s <strong>{sessionsToday} sessions</strong> — amazing effort, {displayName}!
+            </p>
+            <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
+              Your brain needs rest to lock in everything you learned.
+              Come back tomorrow with a fresh mind for a new challenge! 💤
+            </p>
+            <div
+              className="rounded-2xl px-5 py-3 inline-flex items-center gap-2 font-bold text-sm"
+              style={{ background: "#EEF2FF", color: "#4F46E5", border: "2px solid #818CF8" }}
             >
-              {/* Icon area */}
-              <div
-                className="p-5 flex items-center justify-center"
-                style={{ background: mod.bg }}
-              >
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
-                  style={{ background: "white", border: `2px solid ${mod.border}`, boxShadow: `0 3px 0 ${mod.border}60` }}
-                  aria-hidden="true"
+              <span>🔥</span>
+              {streak > 0 ? `${streak}-day streak — keep it going tomorrow!` : "Start a streak tomorrow!"}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Session counter pill */}
+            {sessionsToday !== null && sessionsToday > 0 && (
+              <div className="flex justify-end mb-2">
+                <span
+                  className="text-xs font-bold px-3 py-1 rounded-full"
+                  style={{ background: "#FFF7ED", color: "#C2410C", border: "2px solid #F97316" }}
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={mod.iconPath} />
-                  </svg>
-                </div>
+                  {sessionsToday}/{DAILY_LIMIT} sessions today
+                </span>
               </div>
-              {/* Label */}
-              <div className="px-3 pb-4 pt-2 text-center">
-                <p className="font-baloo text-base font-extrabold" style={{ color: "var(--text)" }}>
-                  {mod.label}
-                </p>
-              </div>
-              {/* Bottom accent bar */}
-              <div
-                className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-xl"
-                style={{ background: mod.border }}
-                aria-hidden="true"
-              />
-            </Link>
-          ))}
-        </div>
+            )}
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mb-5">
+              {MODULES.map((mod) => (
+                <Link
+                  key={mod.id}
+                  href={mod.href}
+                  className="group bg-white rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2"
+                  style={{
+                    border:     `3px solid ${mod.border}`,
+                    boxShadow:  `0 5px 0 ${mod.border}70`,
+                  }}
+                  aria-label={`Go to ${mod.label}`}
+                >
+                  {/* Icon area */}
+                  <div
+                    className="p-5 flex items-center justify-center"
+                    style={{ background: mod.bg }}
+                  >
+                    <div
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
+                      style={{ background: "white", border: `2px solid ${mod.border}`, boxShadow: `0 3px 0 ${mod.border}60` }}
+                      aria-hidden="true"
+                    >
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={mod.iconPath} />
+                      </svg>
+                    </div>
+                  </div>
+                  {/* Label */}
+                  <div className="px-3 pb-4 pt-2 text-center">
+                    <p className="font-baloo text-base font-extrabold" style={{ color: "var(--text)" }}>
+                      {mod.label}
+                    </p>
+                  </div>
+                  {/* Bottom accent bar */}
+                  <div
+                    className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-xl"
+                    style={{ background: mod.border }}
+                    aria-hidden="true"
+                  />
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* ── Streak nudge ── */}
         <div

@@ -6,9 +6,11 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 
+const DAILY_SESSION_LIMIT = 3;
+
 const progressSchema = z.object({
   childId: z.string().cuid(),
-  module: z.enum(["MATH", "TIME_TELLING", "PUBLIC_SPEAKING", "MONEY", "SPELLING", "LIFE_SKILLS"]),
+  module: z.enum(["MATH", "TIME_TELLING", "PUBLIC_SPEAKING", "MONEY", "SPELLING", "LIFE_SKILLS", "SCIENCE", "WRITING"]),
   score: z.number().int().min(0).max(100),
   timeTaken: z.number().int().min(0),
 });
@@ -20,6 +22,8 @@ const BADGE_RULES = [
   { type: "MONEY_WISE",    module: "MONEY",          minScore: 100 },
   { type: "SPELL_BEE",     module: "SPELLING",       minScore: 100 },
   { type: "LIFE_CHAMP",    module: "LIFE_SKILLS",    minScore: 60  },
+  { type: "SCIENCE_STAR",  module: "SCIENCE",        minScore: 80  },
+  { type: "WRITING_STAR",  module: "WRITING",        minScore: 60  },
   { type: "PERFECT_SCORE", module: null,             minScore: 100 },
 ];
 
@@ -130,6 +134,28 @@ export async function POST(req: NextRequest) {
     const avgRecent = recent.length ? recent.reduce((s: number, r: any) => s + r.score, 0) / recent.length : score;
     const difficulty = avgRecent < 60 ? "easier" : avgRecent > 90 ? "harder" : "same";
 
+    // Daily session limit check
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const sessionsToday = await prisma.progress.count({
+      where: { childId, date: { gte: todayStart } },
+    });
+    const dailyLimitReached = sessionsToday >= DAILY_SESSION_LIMIT;
+
+    // Auto-send daily report to parent when child hits the limit (exactly at limit)
+    if (sessionsToday === DAILY_SESSION_LIMIT) {
+      try {
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app";
+        await fetch(`${appUrl}/api/email/daily`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ childId }),
+        });
+      } catch {
+        // Non-fatal — email failure should not break progress save
+      }
+    }
+
     return NextResponse.json({
       progress,
       starsEarned,
@@ -137,6 +163,8 @@ export async function POST(req: NextRequest) {
       streak: newStreak,
       newBadges,
       difficulty,
+      sessionsToday,
+      dailyLimitReached,
     }, { status: 201 });
   } catch (error) {
     console.error("[progress POST]", error);

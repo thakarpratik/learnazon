@@ -14,6 +14,7 @@ const MODULE_LABELS: Record<string, string> = {
   MATH: "Math 🔢", TIME_TELLING: "Time Telling 🕐",
   PUBLIC_SPEAKING: "Public Speaking 🎤", MONEY: "Money 💰",
   SPELLING: "Spelling 📝", LIFE_SKILLS: "Life Skills 🌱",
+  SCIENCE: "Science 🔬", WRITING: "Writing ✍️",
 };
 
 export async function POST(req: NextRequest) {

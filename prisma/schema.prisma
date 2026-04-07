@@ -77,6 +77,8 @@ enum Module {
   MONEY
   SPELLING
   LIFE_SKILLS
+  SCIENCE
+  WRITING
 }
 
 // ─── Daily streaks ─────────────────────────────────────────────────────────────
@@ -109,6 +111,8 @@ enum BadgeType {
   MONEY_WISE
   SPELL_BEE
   LIFE_CHAMP
+  SCIENCE_STAR
+  WRITING_STAR
   STREAK_3
   STREAK_7
   STREAK_30
