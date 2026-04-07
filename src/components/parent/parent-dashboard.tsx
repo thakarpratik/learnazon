@@ -153,6 +153,14 @@ export function ParentDashboard() {
             <Link href="/parent/children" className="btn-primary !py-2 !px-5 !text-sm">
               + Add Child
             </Link>
+            {/* Home */}
+            <Link
+              href="/"
+              className="text-sm font-bold px-4 py-2 rounded-full text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 border border-transparent hover:border-indigo-200 transition-all"
+              aria-label="Go to homepage"
+            >
+              🏠 Home
+            </Link>
             {/* Logout */}
             <button
               onClick={() => signOut({ callbackUrl: "/" })}

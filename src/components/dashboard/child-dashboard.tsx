@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
@@ -227,7 +227,7 @@ export function ChildDashboard() {
             </div>
           </div>
 
-          {/* Stat pills */}
+          {/* Stat pills + logout */}
           <div className="flex items-center gap-2">
             <Link
               href="/rewards"
@@ -261,6 +261,18 @@ export function ChildDashboard() {
               </svg>
               {streak}d
             </div>
+            {/* Log out */}
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="flex items-center gap-1.5 rounded-2xl px-3 py-2 font-bold text-sm transition-all duration-150 hover:bg-red-50 hover:text-red-500 text-gray-400"
+              style={{ border: "2px solid transparent" }}
+              aria-label="Log out"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+              </svg>
+              <span className="hidden sm:inline">Log out</span>
+            </button>
           </div>
         </div>
       </header>
