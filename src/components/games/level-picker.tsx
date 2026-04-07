@@ -32,7 +32,6 @@ export function LevelPicker({ onSelect, moduleEmoji, moduleName, accentColor = "
               background:   lv.bg,
               border:       `3px solid ${lv.border}`,
               boxShadow:    `0 5px 0 ${lv.border}80`,
-              focusRingColor: lv.border,
             }}
             aria-label={`${lv.label} level — ${lv.desc}`}
           >
