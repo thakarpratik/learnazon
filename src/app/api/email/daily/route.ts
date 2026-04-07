@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
     }));
 
     const overallAvg = Math.round(
-      todayProgress.reduce((a, p) => a + p.score, 0) / todayProgress.length
+      todayProgress.reduce((a: number, p) => a + p.score, 0) / todayProgress.length
     );
 
     const childName = child.nickname ?? child.name;
