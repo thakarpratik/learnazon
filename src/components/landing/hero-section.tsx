@@ -61,21 +61,36 @@ export function HeroSection() {
 
           {/* Left — Copy */}
           <div className="text-center lg:text-left">
-            {/* AI badge */}
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold mb-7 border-2"
-              style={{
-                background:   "var(--indigo-light)",
-                color:        "var(--indigo)",
-                borderColor:  "var(--indigo-soft)",
-                boxShadow:    "0 2px 0 rgba(79,70,229,0.2)",
-              }}
-            >
-              {/* Sparkle SVG */}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2z" fill="var(--indigo)" opacity="0.9"/>
-              </svg>
-              Powered by Claude AI — personalized for every child
+            {/* Badge row: Dad + AI */}
+            <div className="inline-flex flex-wrap justify-center lg:justify-start items-center gap-3 mb-7">
+              {/* Built by a Dad badge */}
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold border-2"
+                style={{
+                  background:  "#FFFBEB",
+                  color:       "#92400E",
+                  borderColor: "#FBBF24",
+                  boxShadow:   "0 2px 0 rgba(251,191,36,0.3)",
+                }}
+              >
+                <span aria-hidden="true">👨‍👧</span>
+                Built by a Dad
+              </div>
+              {/* AI badge */}
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold border-2"
+                style={{
+                  background:   "var(--indigo-light)",
+                  color:        "var(--indigo)",
+                  borderColor:  "var(--indigo-soft)",
+                  boxShadow:    "0 2px 0 rgba(79,70,229,0.2)",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2z" fill="var(--indigo)" opacity="0.9"/>
+                </svg>
+                Powered by Claude AI
+              </div>
             </div>
 
             {/* Headline */}
