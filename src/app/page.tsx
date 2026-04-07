@@ -4,6 +4,7 @@ import { AgeSelectorSection } from "@/components/landing/age-selector-section";
 import { FeaturesSection } from "@/components/landing/features-section";
 import { ModulesSection } from "@/components/landing/modules-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
+import { BuiltByDadSection } from "@/components/landing/built-by-dad-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -26,6 +27,7 @@ export default function HomePage() {
         <FeaturesSection />
         <ModulesSection />
         <TestimonialsSection />
+        <BuiltByDadSection />
         <PricingSection />
         <CtaSection />
       </main>
