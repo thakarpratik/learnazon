@@ -2,24 +2,23 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { SpeakingGame } from "@/components/games/speaking-game";
+import { WritingGame } from "@/components/games/writing-game";
 import { LevelPicker, type Level } from "@/components/games/level-picker";
-import Link from "next/link";
 
-export default function SpeakingPage() {
+export default function WritingPage() {
   const { data: session, status } = useSession();
   const [level, setLevel] = useState<Level | null>(null);
 
   if (status === "loading") return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="text-5xl animate-bounce-slow">🎤</div>
+      <div className="text-5xl animate-bounce-slow">✍️</div>
     </div>
   );
 
   const user = session?.user as any;
 
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #F0FDF9 0%, #FFFBF5 100%)" }}>
+    <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)" }}>
       <header className="px-4 py-4 flex items-center gap-4 max-w-2xl mx-auto">
         <button
           onClick={() => level ? setLevel(null) : history.back()}
@@ -27,14 +26,14 @@ export default function SpeakingPage() {
           aria-label="Back"
         >←</button>
         <div className="flex items-center gap-2">
-          <span className="text-3xl">🎤</span>
-          <h1 className="font-fredoka text-2xl font-bold text-gray-800">Public Speaking</h1>
+          <span className="text-3xl">✍️</span>
+          <h1 className="font-fredoka text-2xl font-bold text-gray-800">Writing Practice</h1>
         </div>
       </header>
       <main className="px-4 pb-10 max-w-2xl mx-auto">
         {!level
-          ? <LevelPicker onSelect={setLevel} moduleEmoji="🎤" moduleName="Public Speaking" accentColor="#34D399" />
-          : <SpeakingGame age={user?.age ?? 7} childId={user?.id ?? ""} level={level} />
+          ? <LevelPicker onSelect={setLevel} moduleEmoji="✍️" moduleName="Writing Practice" accentColor="#6366F1" />
+          : <WritingGame age={user?.age ?? 7} childId={user?.id ?? ""} level={level} />
         }
       </main>
     </div>

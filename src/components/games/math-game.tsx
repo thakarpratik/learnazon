@@ -2,40 +2,36 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import type { Level } from "./level-picker";
 
 interface Question { question: string; answer: number; choices: number[]; }
 
-function generateQuestion(age: number): Question {
+function generateQuestion(effectiveAge: number): Question {
   let a: number, b: number, question: string, answer: number;
 
-  if (age <= 6) {
-    // Count / add within 10
+  if (effectiveAge <= 6) {
     a = Math.floor(Math.random() * 6);
     b = Math.floor(Math.random() * (10 - a));
     question = `${a} + ${b} = ?`;
     answer = a + b;
-  } else if (age <= 7) {
-    // +/- within 20
+  } else if (effectiveAge <= 7) {
     const op = Math.random() > 0.5 ? "+" : "-";
     a = Math.floor(Math.random() * 15) + 1;
     b = op === "+" ? Math.floor(Math.random() * (20 - a)) : Math.floor(Math.random() * a);
     answer = op === "+" ? a + b : a - b;
     question = `${a} ${op} ${b} = ?`;
-  } else if (age <= 9) {
-    // Multiplication
+  } else if (effectiveAge <= 9) {
     a = Math.floor(Math.random() * 10) + 1;
     b = Math.floor(Math.random() * 10) + 1;
     question = `${a} × ${b} = ?`;
     answer = a * b;
   } else {
-    // Division
     b = Math.floor(Math.random() * 9) + 2;
     answer = Math.floor(Math.random() * 10) + 1;
     a = b * answer;
     question = `${a} ÷ ${b} = ?`;
   }
 
-  // Generate 3 wrong choices close to the answer
   const wrong = new Set<number>();
   while (wrong.size < 3) {
     const offset = Math.floor(Math.random() * 10) - 5;
@@ -46,9 +42,29 @@ function generateQuestion(age: number): Question {
   return { question, answer, choices };
 }
 
-interface MathGameProps { age: number; childId: string; questionCount?: number; }
+function generateTablesQuestion(table: number, idx: number): Question {
+  const b = (idx % 12) + 1;
+  const answer = table * b;
+  const question = `${table} × ${b} = ?`;
+  const wrong = new Set<number>();
+  while (wrong.size < 3) {
+    const offset = (Math.floor(Math.random() * 5) + 1) * table * (Math.random() > 0.5 ? 1 : -1);
+    const w = answer + offset;
+    if (w !== answer && w > 0) wrong.add(w);
+  }
+  const choices = Array.from(wrong).concat(answer).sort(() => Math.random() - 0.5);
+  return { question, answer, choices };
+}
 
-export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
+interface MathGameProps {
+  age: number;
+  childId: string;
+  questionCount?: number;
+  level?: Level;
+  tablesMode?: number | null; // which table (2-12), or null for normal mode
+}
+
+export function MathGame({ age, childId, questionCount = 5, level = "medium", tablesMode = null }: MathGameProps) {
   const router = useRouter();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [current, setCurrent] = useState(0);
@@ -59,9 +75,18 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
   const [loadingHint, setLoadingHint] = useState(false);
   const [consecutiveWrong, setConsecutiveWrong] = useState(0);
 
+  const totalQ = tablesMode ? 12 : questionCount;
+
+  // effective age from level
+  const eAge = level === "easy" ? Math.max(5, age - 2) : level === "advanced" ? Math.min(13, age + 2) : age;
+
   useEffect(() => {
-    setQuestions(Array.from({ length: questionCount }, () => generateQuestion(age)));
-  }, [age, questionCount]);
+    if (tablesMode) {
+      setQuestions(Array.from({ length: 12 }, (_, i) => generateTablesQuestion(tablesMode, i)));
+    } else {
+      setQuestions(Array.from({ length: questionCount }, () => generateQuestion(eAge)));
+    }
+  }, [age, questionCount, level, tablesMode, eAge]);
 
   const handleAnswer = useCallback(async (choice: number) => {
     if (selected !== null) return;
@@ -76,7 +101,6 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
     } else {
       const newWrong = consecutiveWrong + 1;
       setConsecutiveWrong(newWrong);
-      // Fetch AI hint after wrong answer
       setLoadingHint(true);
       try {
         const res = await fetch("/api/ai", {
@@ -101,10 +125,9 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
     setTimeout(() => {
       setSelected(null);
       setHint("");
-      if (current + 1 >= questionCount) {
+      if (current + 1 >= totalQ) {
         setShowResult(true);
-        // Save progress
-        const score = Math.round(((isCorrect ? correct + 1 : correct) / questionCount) * 100);
+        const score = Math.round(((isCorrect ? correct + 1 : correct) / totalQ) * 100);
         fetch("/api/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -114,7 +137,9 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
         setCurrent((c) => c + 1);
       }
     }, isCorrect ? 1200 : 2500);
-  }, [selected, questions, current, correct, consecutiveWrong, age, childId, questionCount]);
+  }, [selected, questions, current, correct, consecutiveWrong, age, childId, totalQ]);
+
+  const levelBadge: Record<Level, string> = { easy: "🌱 Easy", medium: "⭐ Medium", advanced: "🔥 Advanced" };
 
   if (!questions.length) return (
     <div className="flex items-center justify-center min-h-64">
@@ -123,7 +148,7 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
   );
 
   if (showResult) {
-    const score = Math.round((correct / questionCount) * 100);
+    const score = Math.round((correct / totalQ) * 100);
     const stars = score === 100 ? 3 : score >= 80 ? 2 : 1;
     return (
       <div className="text-center py-10">
@@ -131,7 +156,7 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
         <h2 className="font-fredoka text-4xl font-bold text-gray-800 mb-2">
           {score >= 80 ? "Amazing!" : score >= 60 ? "Good job!" : "Keep going!"}
         </h2>
-        <p className="text-xl text-gray-500 mb-4">{correct} out of {questionCount} correct</p>
+        <p className="text-xl text-gray-500 mb-4">{correct} out of {totalQ} correct</p>
         <div className="flex justify-center gap-2 mb-8">
           {Array.from({ length: 3 }).map((_, i) => (
             <span key={i} className={`text-4xl ${i < stars ? "opacity-100" : "opacity-20"}`}>⭐</span>
@@ -139,7 +164,14 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
         </div>
         <div className="flex gap-3 justify-center flex-wrap">
           <button onClick={() => router.push("/dashboard")} className="btn-secondary">Back to Home</button>
-          <button onClick={() => { setQuestions(Array.from({ length: questionCount }, () => generateQuestion(age))); setCurrent(0); setCorrect(0); setShowResult(false); }} className="btn-primary">
+          <button onClick={() => {
+            if (tablesMode) {
+              setQuestions(Array.from({ length: 12 }, (_, i) => generateTablesQuestion(tablesMode, i)));
+            } else {
+              setQuestions(Array.from({ length: questionCount }, () => generateQuestion(eAge)));
+            }
+            setCurrent(0); setCorrect(0); setShowResult(false);
+          }} className="btn-primary">
             Play Again 🎮
           </button>
         </div>
@@ -148,15 +180,22 @@ export function MathGame({ age, childId, questionCount = 5 }: MathGameProps) {
   }
 
   const q = questions[current];
-  const progress = ((current) / questionCount) * 100;
+  const progress = (current / totalQ) * 100;
 
   return (
     <div className="max-w-lg mx-auto">
+      {/* Level badge */}
+      <div className="flex justify-between items-center mb-4">
+        <span className="text-xs font-bold px-3 py-1 rounded-full bg-orange-100 text-orange-700 border border-orange-200">
+          {tablesMode ? `×${tablesMode} Table` : levelBadge[level]}
+        </span>
+        <span className="text-sm font-semibold text-gray-500">{correct} correct ⭐</span>
+      </div>
+
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex justify-between text-sm font-semibold text-gray-500 mb-2">
-          <span>Question {current + 1} of {questionCount}</span>
-          <span>{correct} correct ⭐</span>
+          <span>Question {current + 1} of {totalQ}</span>
         </div>
         <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
           <div className="h-full bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full transition-all duration-500"
