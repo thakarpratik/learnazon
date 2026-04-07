@@ -181,7 +181,10 @@ export async function GET(req: NextRequest) {
     const childId = searchParams.get("childId");
     if (!childId) return NextResponse.json({ message: "childId required" }, { status: 400 });
 
-    const [progress, stars, streak, badges] = await Promise.all([
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const [progress, stars, streak, badges, sessionsToday] = await Promise.all([
       prisma.progress.findMany({
         where: { childId },
         orderBy: { date: "desc" },
@@ -190,9 +193,11 @@ export async function GET(req: NextRequest) {
       prisma.stars.findUnique({ where: { childId } }),
       prisma.streak.findUnique({ where: { childId } }),
       prisma.badge.findMany({ where: { childId }, orderBy: { earnedAt: "desc" } }),
+      // Accurate count for today — not affected by the take:50 cap above
+      prisma.progress.count({ where: { childId, date: { gte: todayStart } } }),
     ]);
 
-    return NextResponse.json({ progress, stars, streak, badges });
+    return NextResponse.json({ progress, stars, streak, badges, sessionsToday });
   } catch (error) {
     console.error("[progress GET]", error);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });

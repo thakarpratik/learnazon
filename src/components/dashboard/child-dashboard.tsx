@@ -94,19 +94,24 @@ export function ChildDashboard() {
       setStars(data.stars?.total ?? 0);
       setStreak(data.streak?.currentStreak ?? 0);
       setBadges((data.badges ?? []).map((b: any) => b.badgeType));
-
-      // Count today's sessions from returned progress
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const todayCount = (data.progress ?? []).filter(
-        (p: any) => new Date(p.date) >= today
-      ).length;
-      setSessionsToday(todayCount);
+      // Use the accurate server-side count (not filtered from the take:50 slice)
+      setSessionsToday(data.sessionsToday ?? 0);
     } catch (e) { console.error(e); }
   }, [session]);
 
   useEffect(() => {
     if (status === "authenticated") fetchStats();
+  }, [status, fetchStats]);
+
+  // Re-fetch when the tab/page becomes visible again (e.g. returning from a game)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && status === "authenticated") {
+        fetchStats();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, [status, fetchStats]);
 
   /* ── Loading screen ── */
