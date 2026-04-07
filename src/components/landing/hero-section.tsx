@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LiveActivityTicker } from "@/components/landing/live-activity-ticker";
 
 /* Decorative floating blobs — pure CSS, no emojis */
 const blobs = [
@@ -159,6 +160,8 @@ export function HeroSection() {
               <span className="hidden sm:block text-gray-200">·</span>
               <span>No credit card needed</span>
             </div>
+
+            <LiveActivityTicker />
           </div>
 
           {/* Right — Illustration card */}
