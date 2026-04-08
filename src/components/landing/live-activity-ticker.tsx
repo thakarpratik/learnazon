@@ -18,6 +18,8 @@ const ACTIVITIES = [
   { label: "Life Skills",          emoji: "🌱", color: "#FB7185" },
   { label: "Science Explorer",     emoji: "🔬", color: "#14B8A6" },
   { label: "Writing Practice",     emoji: "✍️", color: "#6366F1" },
+  { label: "Spanish",              emoji: "🇪🇸", color: "#EF4444" },
+  { label: "Movies",               emoji: "🎬", color: "#7C3AED" },
 ];
 
 function randomPick<T>(arr: T[], exclude?: T): T {

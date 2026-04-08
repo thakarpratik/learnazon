@@ -10,7 +10,7 @@ const DAILY_SESSION_LIMIT = 3;
 
 const progressSchema = z.object({
   childId: z.string().cuid(),
-  module: z.enum(["MATH", "TIME_TELLING", "PUBLIC_SPEAKING", "MONEY", "SPELLING", "LIFE_SKILLS", "SCIENCE", "WRITING"]),
+  module: z.enum(["MATH", "TIME_TELLING", "PUBLIC_SPEAKING", "MONEY", "SPELLING", "LIFE_SKILLS", "SCIENCE", "WRITING", "SPANISH", "MOVIES"]),
   score: z.number().int().min(0).max(100),
   timeTaken: z.number().int().min(0),
 });
@@ -24,6 +24,8 @@ const BADGE_RULES = [
   { type: "LIFE_CHAMP",    module: "LIFE_SKILLS",    minScore: 60  },
   { type: "SCIENCE_STAR",  module: "SCIENCE",        minScore: 80  },
   { type: "WRITING_STAR",  module: "WRITING",        minScore: 60  },
+  { type: "SPANISH_STAR",  module: "SPANISH",        minScore: 80  },
+  { type: "MOVIE_BUFF",    module: "MOVIES",         minScore: 80  },
   { type: "PERFECT_SCORE", module: null,             minScore: 100 },
 ];
 

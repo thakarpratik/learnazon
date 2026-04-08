@@ -79,6 +79,8 @@ enum Module {
   LIFE_SKILLS
   SCIENCE
   WRITING
+  SPANISH
+  MOVIES
 }
 
 // ─── Daily streaks ─────────────────────────────────────────────────────────────
@@ -113,6 +115,8 @@ enum BadgeType {
   LIFE_CHAMP
   SCIENCE_STAR
   WRITING_STAR
+  SPANISH_STAR
+  MOVIE_BUFF
   STREAK_3
   STREAK_7
   STREAK_30

@@ -17,6 +17,8 @@ const MODULE_LABELS: Record<string, string> = {
   LIFE_SKILLS:    "Life Skills 🌱",
   SCIENCE:        "Science 🔬",
   WRITING:        "Writing ✍️",
+  SPANISH:        "Spanish 🇪🇸",
+  MOVIES:         "Movies 🎬",
 };
 
 const SCORE_COLOUR = (avg: number) =>
