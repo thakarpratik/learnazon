@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: child.id, name: child.name, nickname: child.nickname,
-          email: `child_${child.id}@kidlearn.internal`,
+          email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
@@ -110,7 +110,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           id: child.id, name: child.name, nickname: child.nickname,
-          email: `child_${child.id}@kidlearn.internal`,
+          email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,

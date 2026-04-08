@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { BLOG_POSTS } from "@/lib/blog-posts";
 
-const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app";
+const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [

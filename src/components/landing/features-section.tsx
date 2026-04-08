@@ -31,7 +31,7 @@ const features = [
   },
   {
     title: "Works Everywhere",
-    desc:  "iPad, tablet, phone, or computer — KidLearn works beautifully on any device with no app download needed.",
+    desc:  "iPad, tablet, phone, or computer — Flinchi works beautifully on any device with no app download needed.",
     bg:    "#FFFBEB", border: "#FBBF24", icon: "amber",
     iconPath: "M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 15.75h3",
   },
@@ -64,7 +64,7 @@ export function FeaturesSection() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Why parents choose KidLearn
+            Why parents choose Flinchi
           </span>
           <h2
             id="features-heading"

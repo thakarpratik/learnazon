@@ -32,7 +32,7 @@ export function HeroSection() {
   return (
     <section
       className="relative min-h-[100svh] flex items-center overflow-hidden pt-20"
-      aria-label="KidLearn hero"
+      aria-label="Flinchi hero"
       style={{ background: "linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 50%, #EEF2FF 100%)" }}
     >
       {/* Background blobs */}

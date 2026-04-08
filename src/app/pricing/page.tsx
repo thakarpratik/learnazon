@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
   title: "Pricing — Free to Start",
-  description: "KidLearn is free to get started. See our simple, honest pricing with no hidden fees.",
+  description: "Flinchi is free to get started. See our simple, honest pricing with no hidden fees.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -73,7 +73,7 @@ const PLANS = [
 ];
 
 const FAQS = [
-  { q: "Is KidLearn really free?", a: "Yes! The free plan gives your child access to all 6 learning modules with 3 activities per day. No credit card required." },
+  { q: "Is Flinchi really free?", a: "Yes! The free plan gives your child access to all 6 learning modules with 3 activities per day. No credit card required." },
   { q: "When will paid plans be available?", a: "We're focused on making the free experience excellent before introducing paid plans. Sign up for free and you'll be notified when Pro launches." },
   { q: "Is there a limit on how many children can use the free plan?", a: "The free plan supports 1 child profile. Additional profiles will be available on the Family plan when it launches." },
   { q: "How is my child's data protected?", a: "We are fully COPPA compliant. Children's profiles contain only a nickname and PIN — no email, phone, or personal contact information. See our Privacy Policy for full details." },

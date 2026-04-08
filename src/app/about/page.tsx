@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
-  title: "About KidLearn — Our Mission",
-  description: "KidLearn was built with one belief: every child deserves engaging, personalized learning. Learn about our mission, values, and commitment to child safety.",
+  title: "About Flinchi — Our Mission",
+  description: "Flinchi was built with one belief: every child deserves engaging, personalized learning. Learn about our mission, values, and commitment to child safety.",
   alternates: { canonical: "/about" },
 };
 
@@ -13,11 +13,11 @@ const VALUES = [
   { emoji: "🧠", title: "Learning First", desc: "Every feature is designed to build real skills — not just keep kids entertained. We follow curriculum guidelines for ages 5–10." },
   { emoji: "🔒", title: "Child Safety", desc: "No ads. No external links. No personal data collected from children. We are fully COPPA compliant and built safety in from day one." },
   { emoji: "🤖", title: "AI That Helps", desc: "We use Claude AI to give encouraging, age-appropriate hints — never to replace the teacher, but to support every learner at their own pace." },
-  { emoji: "❤️", title: "Made with Love", desc: "KidLearn is built by parents who wanted something better for their own kids — and decided to build it themselves." },
+  { emoji: "❤️", title: "Made with Love", desc: "Flinchi is built by parents who wanted something better for their own kids — and decided to build it themselves." },
 ];
 
 const TEAM = [
-  { name: "Prateek Thakar", role: "Founder & Builder", emoji: "👨‍💻", bio: "Parent of a curious 7-year-old. Built KidLearn because existing apps felt more like toys than real learning tools." },
+  { name: "Prateek Thakar", role: "Founder & Builder", emoji: "👨‍💻", bio: "Parent of a curious 7-year-old. Built Flinchi because existing apps felt more like toys than real learning tools." },
 ];
 
 export default function AboutPage() {
@@ -33,7 +33,7 @@ export default function AboutPage() {
               Every child deserves to love learning
             </h1>
             <p className="text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto">
-              KidLearn started with a simple frustration: educational apps for kids were either too boring to hold their attention, or too gamified to actually teach anything. We decided to build something better.
+              Flinchi started with a simple frustration: educational apps for kids were either too boring to hold their attention, or too gamified to actually teach anything. We decided to build something better.
             </p>
           </div>
         </section>
@@ -48,7 +48,7 @@ export default function AboutPage() {
                   Personalized learning for every child, everywhere
                 </h2>
                 <p className="text-gray-500 leading-relaxed mb-4">
-                  We believe the best learning happens when content adapts to the child — not the other way around. KidLearn uses AI to meet each child exactly where they are, adjusting difficulty, providing encouragement, and celebrating wins in real time.
+                  We believe the best learning happens when content adapts to the child — not the other way around. Flinchi uses AI to meet each child exactly where they are, adjusting difficulty, providing encouragement, and celebrating wins in real time.
                 </p>
                 <p className="text-gray-500 leading-relaxed">
                   Our modules cover the subjects that matter most in early education: math, literacy, time-telling, money, public speaking, and life skills — each designed by educators and built by people who care deeply about getting it right.
@@ -86,7 +86,7 @@ export default function AboutPage() {
           <div className="section-container max-w-3xl">
             <div className="text-center mb-12">
               <h2 className="font-fredoka text-4xl font-bold text-gray-900 mb-4">Who built this</h2>
-              <p className="text-gray-500">KidLearn is an indie project — built lean, shipped fast, and improved based on real feedback from real families.</p>
+              <p className="text-gray-500">Flinchi is an indie project — built lean, shipped fast, and improved based on real feedback from real families.</p>
             </div>
             <div className="flex justify-center">
               {TEAM.map((member) => (
@@ -107,7 +107,7 @@ export default function AboutPage() {
             <div className="text-4xl mb-4">🔒</div>
             <h2 className="font-fredoka text-3xl font-bold text-gray-900 mb-4">Built safe from day one</h2>
             <p className="text-gray-500 leading-relaxed mb-6">
-              KidLearn collects only what&apos;s necessary to run the service. Children&apos;s profiles contain only a name, age, and PIN — no email, no phone, no photos. Parents have full control and can delete all data at any time.
+              Flinchi collects only what&apos;s necessary to run the service. Children&apos;s profiles contain only a name, age, and PIN — no email, no phone, no photos. Parents have full control and can delete all data at any time.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {["COPPA Compliant", "No Ads Ever", "No Third-Party Tracking", "Parent-Controlled", "Data Deletable on Request"].map((badge) => (

@@ -67,7 +67,7 @@ export default function AdminPage() {
           <div className="text-center mb-6">
             <div className="text-4xl mb-2">🔐</div>
             <h1 className="text-white font-bold text-xl">Admin Analytics</h1>
-            <p className="text-gray-400 text-sm mt-1">KidLearn internal dashboard</p>
+            <p className="text-gray-400 text-sm mt-1">Flinchi internal dashboard</p>
           </div>
           <input
             type="password"
@@ -105,7 +105,7 @@ export default function AdminPage() {
       {/* Header */}
       <div className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">🌟 KidLearn Admin</h1>
+          <h1 className="text-xl font-bold text-white">🌟 Flinchi Admin</h1>
           <p className="text-gray-400 text-xs mt-0.5">Usage analytics · as of now</p>
         </div>
         <button

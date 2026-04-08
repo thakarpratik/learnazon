@@ -47,7 +47,7 @@ export function CtaSection() {
               Ready to start the adventure?
             </h2>
             <p className="text-white/85 text-xl max-w-xl mx-auto mb-10 font-medium leading-relaxed">
-              Join 10,000+ families already using KidLearn. Free to start — no credit card needed.
+              Join 10,000+ families already using Flinchi. Free to start — no credit card needed.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

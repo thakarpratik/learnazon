@@ -34,7 +34,7 @@ export function SiteFooter() {
           {/* Brand column */}
           <div>
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit" aria-label="KidLearn home">
+            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit" aria-label="Flinchi home">
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg font-black select-none"
                 style={{
@@ -46,7 +46,7 @@ export function SiteFooter() {
                 K
               </div>
               <span className="font-baloo text-2xl font-extrabold" style={{ color: "#818CF8" }}>
-                KidLearn
+                Flinchi
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
@@ -90,7 +90,7 @@ export function SiteFooter() {
           className="border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500"
           style={{ borderColor: "rgba(255,255,255,0.08)" }}
         >
-          <p>© {year} KidLearn. Built with care and Claude AI.</p>
+          <p>© {year} Flinchi. Built with care and Claude AI.</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
             <Link href="/terms"   className="hover:text-gray-300 transition-colors">Terms</Link>

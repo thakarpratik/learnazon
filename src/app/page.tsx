@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
-  title: "KidLearn – AI-Powered Learning for Kids Ages 5–10",
+  title: "Flinchi – AI-Powered Learning for Kids Ages 5–10",
   description:
     "Game-based learning that adapts to your child. Math, spelling, public speaking, money & life skills — personalized by AI. Start free today.",
   alternates: { canonical: "/" },

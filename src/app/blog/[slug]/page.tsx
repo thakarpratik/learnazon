@@ -65,7 +65,7 @@ export default function BlogPostPage({ params }: Props) {
 
           {/* CTA */}
           <div className="mt-12 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-3xl p-8 border border-orange-100 text-center">
-            <p className="font-fredoka text-2xl font-bold text-gray-800 mb-2">Try it with KidLearn</p>
+            <p className="font-fredoka text-2xl font-bold text-gray-800 mb-2">Try it with Flinchi</p>
             <p className="text-gray-500 mb-6 text-sm">Practice {post.category.toLowerCase()} interactively — free for children aged 5–10.</p>
             <Link href="/signup" className="btn-primary">Start Free →</Link>
           </div>

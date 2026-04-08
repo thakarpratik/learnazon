@@ -43,7 +43,7 @@ export function SiteHeader() {
         <Link
           href="/"
           className="flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-          aria-label="KidLearn home"
+          aria-label="Flinchi home"
         >
           {/* Clay logo mark */}
           <div
@@ -61,7 +61,7 @@ export function SiteHeader() {
             className="font-baloo text-2xl font-extrabold tracking-tight"
             style={{ color: "var(--indigo)" }}
           >
-            KidLearn
+            Flinchi
           </span>
         </Link>
 

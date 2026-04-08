@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "KidLearn's privacy policy. We are COPPA compliant and committed to protecting children's privacy.",
+  description: "Flinchi's privacy policy. We are COPPA compliant and committed to protecting children's privacy.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -33,18 +33,18 @@ export default function PrivacyPage() {
             <p className="text-gray-400 text-sm">Last updated: {LAST_UPDATED}</p>
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-2xl p-4">
               <p className="text-blue-700 font-semibold text-sm">
-                <strong>Plain English summary:</strong> We collect the minimum information needed to run KidLearn. We never sell data. We never show ads. Children&apos;s profiles contain no personal contact information. Parents control everything.
+                <strong>Plain English summary:</strong> We collect the minimum information needed to run Flinchi. We never sell data. We never show ads. Children&apos;s profiles contain no personal contact information. Parents control everything.
               </p>
             </div>
           </div>
 
           <Section title="1. Who We Are">
-            <p>KidLearn (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the KidLearn platform available at kidlearn.app. We are committed to protecting the privacy of children and their families.</p>
-            <p>If you have any questions about this policy, contact us at <a href="mailto:privacy@kidlearn.app" className="text-orange-500 hover:underline">privacy@kidlearn.app</a>.</p>
+            <p>Flinchi (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the Flinchi platform available at flinchi.com. We are committed to protecting the privacy of children and their families.</p>
+            <p>If you have any questions about this policy, contact us at <a href="mailto:privacy@flinchi.com" className="text-orange-500 hover:underline">privacy@flinchi.com</a>.</p>
           </Section>
 
           <Section title="2. COPPA Compliance">
-            <p>KidLearn is designed for children aged 5–10 and complies fully with the Children&apos;s Online Privacy Protection Act (COPPA). Specifically:</p>
+            <p>Flinchi is designed for children aged 5–10 and complies fully with the Children&apos;s Online Privacy Protection Act (COPPA). Specifically:</p>
             <ul className="list-none space-y-2 ml-0">
               {[
                 "We do not collect personal information directly from children without verifiable parental consent.",
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
 
           <Section title="4. How We Use Your Information">
             <ul className="list-disc list-inside text-sm space-y-2 ml-2">
-              <li>To operate and improve the KidLearn platform</li>
+              <li>To operate and improve the Flinchi platform</li>
               <li>To send weekly progress reports to parents (can be disabled in settings)</li>
               <li>To personalize learning difficulty and content for each child</li>
               <li>To process payments and manage subscriptions (via Stripe)</li>
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="5. Data Sharing">
-            <p>We share data only with service providers necessary to operate KidLearn:</p>
+            <p>We share data only with service providers necessary to operate Flinchi:</p>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2">
               <li><strong className="text-gray-800">Supabase</strong> — database hosting (servers in the US)</li>
               <li><strong className="text-gray-800">Anthropic (Claude AI)</strong> — AI hint generation; no personal data is included in AI requests</li>
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
               <li>Your email address is removed from our systems within 30 days</li>
               <li>Backups are purged within 90 days</li>
             </ul>
-            <p>To request data deletion, email <a href="mailto:privacy@kidlearn.app" className="text-orange-500 hover:underline">privacy@kidlearn.app</a>.</p>
+            <p>To request data deletion, email <a href="mailto:privacy@flinchi.com" className="text-orange-500 hover:underline">privacy@flinchi.com</a>.</p>
           </Section>
 
           <Section title="7. Security">
@@ -129,16 +129,16 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="8. Cookies">
-            <p>KidLearn uses only essential cookies required to maintain your login session. We do not use advertising cookies, tracking cookies, or third-party analytics cookies.</p>
+            <p>Flinchi uses only essential cookies required to maintain your login session. We do not use advertising cookies, tracking cookies, or third-party analytics cookies.</p>
           </Section>
 
           <Section title="9. Changes to This Policy">
-            <p>We will notify parents by email of any material changes to this privacy policy at least 14 days before they take effect. Continued use of KidLearn after that date constitutes acceptance of the updated policy.</p>
+            <p>We will notify parents by email of any material changes to this privacy policy at least 14 days before they take effect. Continued use of Flinchi after that date constitutes acceptance of the updated policy.</p>
           </Section>
 
           <Section title="10. Contact Us">
             <p>For privacy questions, data requests, or to report concerns:</p>
-            <p><strong className="text-gray-800">Email:</strong> <a href="mailto:privacy@kidlearn.app" className="text-orange-500 hover:underline">privacy@kidlearn.app</a></p>
+            <p><strong className="text-gray-800">Email:</strong> <a href="mailto:privacy@flinchi.com" className="text-orange-500 hover:underline">privacy@flinchi.com</a></p>
             <p>We aim to respond to all privacy requests within 5 business days.</p>
           </Section>
 

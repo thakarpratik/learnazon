@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
     // Auto-send daily report to parent when child hits the limit (exactly at limit)
     if (sessionsToday === DAILY_SESSION_LIMIT) {
       try {
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app";
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com";
         await fetch(`${appUrl}/api/email/daily`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

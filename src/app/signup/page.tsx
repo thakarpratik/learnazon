@@ -4,7 +4,7 @@ import { SignupForm } from "@/components/auth/signup-form";
 
 export const metadata: Metadata = {
   title: "Create Your Free Account",
-  description: "Sign up for KidLearn free. Start your child's learning adventure today — no credit card required.",
+  description: "Sign up for Flinchi free. Start your child's learning adventure today — no credit card required.",
   robots: { index: false, follow: false },
 };
 
@@ -19,10 +19,10 @@ export default function SignupPage() {
           <a
             href="/"
             className="inline-flex items-center gap-2"
-            aria-label="Back to KidLearn home"
+            aria-label="Back to Flinchi home"
           >
             <span className="text-4xl" aria-hidden="true">🌟</span>
-            <span className="font-fredoka text-3xl font-bold text-orange-500">KidLearn</span>
+            <span className="font-fredoka text-3xl font-bold text-orange-500">Flinchi</span>
           </a>
           <h1 className="font-fredoka text-3xl font-bold text-gray-900 mt-4 mb-2">
             Create your account

@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with the KidLearn team. We respond to all messages within 1 business day.",
+  description: "Get in touch with the Flinchi team. We respond to all messages within 1 business day.",
   alternates: { canonical: "/contact" },
 };
 
@@ -25,10 +25,10 @@ export default function ContactPage() {
               </p>
               <div className="space-y-5">
                 {[
-                  { emoji: "📧", label: "General enquiries", email: "hello@kidlearn.app" },
-                  { emoji: "🔒", label: "Privacy & data", email: "privacy@kidlearn.app" },
-                  { emoji: "🛡️", label: "Safety concerns", email: "safety@kidlearn.app" },
-                  { emoji: "💼", label: "Press & partnerships", email: "press@kidlearn.app" },
+                  { emoji: "📧", label: "General enquiries", email: "hello@flinchi.com" },
+                  { emoji: "🔒", label: "Privacy & data", email: "privacy@flinchi.com" },
+                  { emoji: "🛡️", label: "Safety concerns", email: "safety@flinchi.com" },
+                  { emoji: "💼", label: "Press & partnerships", email: "press@flinchi.com" },
                 ].map((contact) => (
                   <div key={contact.email} className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-2xl shrink-0">

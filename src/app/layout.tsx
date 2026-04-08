@@ -4,32 +4,32 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com"),
   title: {
-    default: "KidLearn – AI-Powered Learning for Kids Ages 5–10",
-    template: "%s | KidLearn",
+    default: "Flinchi – AI-Powered Learning for Kids Ages 5–10",
+    template: "%s | Flinchi",
   },
   description:
-    "KidLearn makes learning magical. Math, spelling, public speaking, money & more — personalized by AI for children aged 5–10. Free to start.",
+    "Flinchi makes learning magical. Math, spelling, public speaking, money & more — personalized by AI for children aged 5–10. Free to start.",
   keywords: [
     "kids learning app","educational games for children","AI tutoring kids",
     "math games ages 5-10","homeschool app","spelling games kids",
     "public speaking kids","learn to tell time",
   ],
-  authors: [{ name: "KidLearn" }],
-  creator: "KidLearn",
+  authors: [{ name: "Flinchi" }],
+  creator: "Flinchi",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "KidLearn",
-    title: "KidLearn – AI-Powered Learning for Kids Ages 5–10",
+    siteName: "Flinchi",
+    title: "Flinchi – AI-Powered Learning for Kids Ages 5–10",
     description: "Personalized, game-based learning for children. Math, spelling, public speaking & more — powered by AI.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "KidLearn – Fun learning for kids" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Flinchi – Fun learning for kids" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "KidLearn – AI-Powered Learning for Kids",
+    title: "Flinchi – AI-Powered Learning for Kids",
     description: "Game-based learning for children aged 5–10. Powered by AI.",
     images: ["/og-image.png"],
   },

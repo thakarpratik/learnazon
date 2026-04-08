@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "KidLearn terms of use. Read about your rights and responsibilities when using the KidLearn platform.",
+  description: "Flinchi terms of use. Read about your rights and responsibilities when using the Flinchi platform.",
   alternates: { canonical: "/terms" },
 };
 
@@ -33,11 +33,11 @@ export default function TermsPage() {
           </div>
 
           <Section title="1. Acceptance of Terms">
-            <p>By creating an account or using KidLearn, you agree to these Terms of Use. If you are creating an account on behalf of a child, you confirm that you are the parent or legal guardian of that child and accept these terms on their behalf.</p>
+            <p>By creating an account or using Flinchi, you agree to these Terms of Use. If you are creating an account on behalf of a child, you confirm that you are the parent or legal guardian of that child and accept these terms on their behalf.</p>
           </Section>
 
-          <Section title="2. Who Can Use KidLearn">
-            <p>KidLearn accounts may only be created by adults aged 18 or older. Child profiles may only be created by the account holder (parent or guardian). KidLearn is designed for educational use by children aged 5–10.</p>
+          <Section title="2. Who Can Use Flinchi">
+            <p>Flinchi accounts may only be created by adults aged 18 or older. Child profiles may only be created by the account holder (parent or guardian). Flinchi is designed for educational use by children aged 5–10.</p>
           </Section>
 
           <Section title="3. Your Account">
@@ -52,7 +52,7 @@ export default function TermsPage() {
           <Section title="4. Acceptable Use">
             <p>You agree not to:</p>
             <ul className="list-disc list-inside text-sm space-y-2 ml-2">
-              <li>Use KidLearn for any unlawful purpose</li>
+              <li>Use Flinchi for any unlawful purpose</li>
               <li>Attempt to access other users&apos; accounts or data</li>
               <li>Reverse engineer, copy, or redistribute any part of the platform</li>
               <li>Use automated tools to scrape, crawl, or overload our servers</li>
@@ -61,7 +61,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="5. Free Plan">
-            <p>The free tier of KidLearn is provided as-is with no guarantees of uptime or feature availability. We reserve the right to modify, limit, or discontinue free features at any time with reasonable notice.</p>
+            <p>The free tier of Flinchi is provided as-is with no guarantees of uptime or feature availability. We reserve the right to modify, limit, or discontinue free features at any time with reasonable notice.</p>
           </Section>
 
           <Section title="6. Subscriptions & Payments">
@@ -69,19 +69,19 @@ export default function TermsPage() {
           </Section>
 
           <Section title="7. Intellectual Property">
-            <p>All content on KidLearn — including games, graphics, AI-generated hints, and course material — is owned by KidLearn and protected by copyright. You may not reproduce or distribute any part of the platform without written permission.</p>
+            <p>All content on Flinchi — including games, graphics, AI-generated hints, and course material — is owned by Flinchi and protected by copyright. You may not reproduce or distribute any part of the platform without written permission.</p>
           </Section>
 
           <Section title="8. AI-Generated Content">
-            <p>KidLearn uses Claude AI (by Anthropic) to generate educational hints and feedback. This content is provided for educational purposes only and may occasionally contain errors. We review AI prompts and outputs to maintain quality, but parents should supervise their children&apos;s use of the platform.</p>
+            <p>Flinchi uses Claude AI (by Anthropic) to generate educational hints and feedback. This content is provided for educational purposes only and may occasionally contain errors. We review AI prompts and outputs to maintain quality, but parents should supervise their children&apos;s use of the platform.</p>
           </Section>
 
           <Section title="9. Disclaimer of Warranties">
-            <p>KidLearn is provided &ldquo;as is&rdquo; without warranties of any kind. We do not guarantee that the platform will be error-free or uninterrupted. Educational outcomes vary by child and we make no guarantees about learning results.</p>
+            <p>Flinchi is provided &ldquo;as is&rdquo; without warranties of any kind. We do not guarantee that the platform will be error-free or uninterrupted. Educational outcomes vary by child and we make no guarantees about learning results.</p>
           </Section>
 
           <Section title="10. Limitation of Liability">
-            <p>To the maximum extent permitted by law, KidLearn shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount you paid us in the 12 months preceding the claim.</p>
+            <p>To the maximum extent permitted by law, Flinchi shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform. Our total liability shall not exceed the amount you paid us in the 12 months preceding the claim.</p>
           </Section>
 
           <Section title="11. Governing Law">
@@ -93,7 +93,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="13. Contact">
-            <p>Questions about these terms? Email us at <a href="mailto:legal@kidlearn.app" className="text-orange-500 hover:underline">legal@kidlearn.app</a>.</p>
+            <p>Questions about these terms? Email us at <a href="mailto:legal@flinchi.com" className="text-orange-500 hover:underline">legal@flinchi.com</a>.</p>
           </Section>
 
           <div className="mt-8 pt-8 border-t border-gray-100 text-sm text-gray-400 flex gap-6">

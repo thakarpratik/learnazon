@@ -135,7 +135,7 @@ export function ParentDashboard() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-3xl">🌟</span>
-            <span className="font-fredoka text-2xl font-bold" style={{ color: "var(--color-blue)" }}>KidLearn</span>
+            <span className="font-fredoka text-2xl font-bold" style={{ color: "var(--color-blue)" }}>Flinchi</span>
           </Link>
 
           <div className="flex items-center gap-3">

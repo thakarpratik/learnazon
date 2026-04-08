@@ -36,7 +36,7 @@ export function AgeSelectorSection() {
             <span style={{ color: "var(--indigo)" }}>every age</span>
           </h2>
           <p className="text-lg max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
-            KidLearn automatically adjusts difficulty and content for every age group.
+            Flinchi automatically adjusts difficulty and content for every age group.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export function AgeSelectorSection() {
             <Link
               href={`/signup?age=${selected.age}`}
               className="btn-primary"
-              aria-label={`Start KidLearn for age ${selected.age}`}
+              aria-label={`Start Flinchi for age ${selected.age}`}
             >
               Start for Age {selected.age}
             </Link>

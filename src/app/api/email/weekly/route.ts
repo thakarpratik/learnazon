@@ -71,19 +71,19 @@ export async function POST(req: NextRequest) {
     const html = `<!DOCTYPE html><html><body style="font-family:'Helvetica Neue',sans-serif;background:#fffbf5;margin:0;padding:20px;">
 <div style="max-width:600px;margin:0 auto;">
   <div style="text-align:center;padding:32px 0 24px;"><span style="font-size:40px;">🌟</span>
-    <h1 style="font-size:28px;color:#ff6b35;margin:8px 0 0;font-weight:800;">KidLearn Weekly Report</h1>
+    <h1 style="font-size:28px;color:#ff6b35;margin:8px 0 0;font-weight:800;">Flinchi Weekly Report</h1>
     <p style="color:#6b7280;margin:4px 0 0;">Week ending ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p></div>
   <p style="color:#374151;margin:0 0 24px;">Hi ${parent.name ?? "there"}! Here is how your child${childrenData.length > 1 ? "ren" : ""} did this week!</p>
   ${childSections}
   <div style="text-align:center;padding:24px 0;border-top:1px solid #e5e7eb;">
-    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app"}/parent" style="background:#ff6b35;color:white;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:700;">View Full Dashboard</a>
+    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com"}/parent" style="background:#ff6b35;color:white;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:700;">View Full Dashboard</a>
   </div>
 </div></body></html>`;
 
     const { data, error } = await getResend().emails.send({
-      from: "KidLearn <reports@kidlearn.app>",
+      from: "Flinchi <reports@flinchi.com>",
       to: parent.email,
-      subject: `KidLearn weekly report for ${childrenData.map(c => c.name).join(" & ")}`,
+      subject: `Flinchi weekly report for ${childrenData.map(c => c.name).join(" & ")}`,
       html,
     });
 

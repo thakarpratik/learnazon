@@ -20,7 +20,7 @@ export default function BlogPage() {
             <span className="inline-block bg-orange-100 text-orange-700 font-bold text-sm rounded-full px-4 py-2 mb-4 border border-orange-200">
               📚 Learning Resources
             </span>
-            <h1 className="font-fredoka text-5xl font-bold text-gray-900 mb-4">KidLearn Blog</h1>
+            <h1 className="font-fredoka text-5xl font-bold text-gray-900 mb-4">Flinchi Blog</h1>
             <p className="text-xl text-gray-500 max-w-xl mx-auto">
               Tips, guides, and ideas to help parents support learning at home.
             </p>

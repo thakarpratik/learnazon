@@ -35,7 +35,7 @@ This builds a strong foundation. Once they're confident with hours, minutes feel
 
 ## Use a real clock, not just pictures
 
-Physical manipulation matters enormously for young learners. Get a teaching clock with movable hands — or use KidLearn's interactive clock game — so children can physically drag the hands into position. The act of moving the hands helps reinforce the concept far better than passively looking at a clock face.
+Physical manipulation matters enormously for young learners. Get a teaching clock with movable hands — or use Flinchi's interactive clock game — so children can physically drag the hands into position. The act of moving the hands helps reinforce the concept far better than passively looking at a clock face.
 
 ## Connect time to their daily routine
 
@@ -51,7 +51,7 @@ Abstract concepts stick better when anchored to real life. "What time do you wak
 
 ## Make it a game
 
-The fastest way to kill enthusiasm is to make practice feel like a test. Frame it as a game — "can you beat your record from yesterday?" or use KidLearn's time-telling module where children drag the clock hands to match targets and earn stars for accuracy.
+The fastest way to kill enthusiasm is to make practice feel like a test. Frame it as a game — "can you beat your record from yesterday?" or use Flinchi's time-telling module where children drag the clock hands to match targets and earn stars for accuracy.
 
 ## Be patient with the minute hand
 
@@ -76,7 +76,7 @@ Math drills have their place — but research consistently shows that children l
 
 ## Digital games
 
-**KidLearn Math Module** — Adapts automatically to your child's age (5–10) and adjusts difficulty based on recent performance. When children get answers wrong, an AI tutor gives encouraging, age-appropriate hints rather than just marking it incorrect. Covers counting, addition, subtraction, multiplication, and division.
+**Flinchi Math Module** — Adapts automatically to your child's age (5–10) and adjusts difficulty based on recent performance. When children get answers wrong, an AI tutor gives encouraging, age-appropriate hints rather than just marking it incorrect. Covers counting, addition, subtraction, multiplication, and division.
 
 **Prodigy** — A role-playing game where math questions unlock battle moves. Works well for ages 7–12 but can feel overwhelming for younger children.
 
@@ -129,7 +129,7 @@ The solution isn't to eliminate fear — it's to build familiarity. The more oft
 
 ## How to practice at home
 
-**Show and tell, anytime** — Ask your child to pick one thing they love and tell you about it for 30 seconds. No pressure, no evaluation. Just enthusiastic listening. This is exactly what KidLearn's speaking module does for younger children (ages 5–6).
+**Show and tell, anytime** — Ask your child to pick one thing they love and tell you about it for 30 seconds. No pressure, no evaluation. Just enthusiastic listening. This is exactly what Flinchi's speaking module does for younger children (ages 5–6).
 
 **Storytelling games** — Take turns adding sentences to a story. "Once upon a time there was a dragon…" "The dragon lived in a volcano…" This builds narrative thinking, which is the foundation of good communication.
 
@@ -145,7 +145,7 @@ The solution isn't to eliminate fear — it's to build familiarity. The more oft
 
 ## The role of AI feedback
 
-One of the most exciting developments in education technology is AI-powered speech feedback. KidLearn's speaking module records children giving age-appropriate presentations, then uses Claude AI to provide encouraging, specific feedback — noting what they did well and offering one constructive suggestion. This gives children the experience of being heard and evaluated without the social pressure of performing in front of peers.
+One of the most exciting developments in education technology is AI-powered speech feedback. Flinchi's speaking module records children giving age-appropriate presentations, then uses Claude AI to provide encouraging, specific feedback — noting what they did well and offering one constructive suggestion. This gives children the experience of being heard and evaluated without the social pressure of performing in front of peers.
 
 ## Start today — really
 

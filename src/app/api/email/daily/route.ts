@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
 
   <!-- CTA -->
   <div style="text-align:center;margin-bottom:32px;">
-    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app"}/parent"
+    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com"}/parent"
        style="display:inline-block;background:linear-gradient(135deg,#4F46E5,#818CF8);color:#fff;padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:700;font-size:16px;">
       View Full Dashboard
     </a>
@@ -159,8 +159,8 @@ export async function POST(req: NextRequest) {
 
   <!-- Footer -->
   <p style="text-align:center;color:#9ca3af;font-size:12px;margin:0;">
-    Sent by KidLearn · You're getting this because you're a registered parent.<br>
-    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://kidlearn.app"}/parent" style="color:#818CF8;">Manage notifications</a>
+    Sent by Flinchi · You're getting this because you're a registered parent.<br>
+    <a href="${process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com"}/parent" style="color:#818CF8;">Manage notifications</a>
   </p>
 
 </div>
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
 </html>`;
 
     const { error } = await getResend().emails.send({
-      from: "KidLearn <reports@kidlearn.app>",
+      from: "Flinchi <reports@flinchi.com>",
       to: parent.email,
       subject: `${childName} finished learning for today! Here's how they did 🌟`,
       html,
