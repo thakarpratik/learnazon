@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { name, email, subject, message } = parsed.data;
-    const toEmail = process.env.CONTACT_TO_EMAIL ?? "hi@flinchi.com";
+    const toEmail = process.env.CONTACT_TO_EMAIL ?? "admin@flinchi.com";
 
     await transporter.sendMail({
       from: FROM,
