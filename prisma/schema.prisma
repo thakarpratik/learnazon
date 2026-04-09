@@ -8,18 +8,22 @@ datasource db {
 
 // ─── Parent account ────────────────────────────────────────────────────────────
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  passwordHash String
-  name         String?
-  plan         Plan          @default(FREE)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  children     Child[]
-  subscription Subscription?
-  sessions     Session[]
+  id                 String        @id @default(cuid())
+  email              String        @unique
+  passwordHash       String
+  name               String?
+  plan               Plan          @default(FREE)
+  emailVerified      DateTime?
+  emailVerifyToken   String?       @unique
+  marketingOptIn     Boolean       @default(false)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  children           Child[]
+  subscription       Subscription?
+  sessions           Session[]
 
   @@index([email])
+  @@index([emailVerifyToken])
 }
 
 enum Plan {

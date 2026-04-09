@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 type Mode = "parent" | "child";
@@ -18,8 +18,10 @@ interface ChildProfile {
 
 export function LoginForm() {
   const router = useRouter();
+  const params = useSearchParams();
   const [mode, setMode] = useState<Mode>("parent");
   const [childStep, setChildStep] = useState<ChildStep>("select");
+  const [verified, setVerified] = useState(false);
 
   // Parent login
   const [email, setEmail] = useState("");
@@ -27,6 +29,19 @@ export function LoginForm() {
 
   // Child login
   const [parentEmail, setParentEmail] = useState("");
+
+  // Auto-fill email from verify redirect and show success banner
+  useEffect(() => {
+    const verifiedParam = params.get("verified");
+    const emailParam = params.get("email");
+    if (verifiedParam === "true") {
+      setVerified(true);
+      if (emailParam) setEmail(decodeURIComponent(emailParam));
+    }
+    if (params.get("error") === "invalid-token") {
+      setError("This verification link is invalid or has expired. Please sign up again.");
+    }
+  }, [params]);
   const [children, setChildren] = useState<ChildProfile[]>([]);
   const [selectedChild, setSelectedChild] = useState<ChildProfile | null>(null);
   const [pin, setPin] = useState(["", "", "", ""]);
@@ -42,7 +57,12 @@ export function LoginForm() {
     setLoading(true);
     try {
       const res = await signIn("credentials", { email, password, redirect: false });
-      if (res?.error) throw new Error("Invalid email or password");
+      if (res?.error) {
+        if (res.error.includes("EMAIL_NOT_VERIFIED")) {
+          throw new Error("Please verify your email first. Check your inbox for the link we sent.");
+        }
+        throw new Error("Invalid email or password");
+      }
       router.push("/parent");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
@@ -117,6 +137,14 @@ export function LoginForm() {
 
   return (
     <div className="card p-8">
+      {/* Email verified banner */}
+      {verified && (
+        <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-5 text-sm font-medium flex items-center gap-2">
+          <span>✅</span>
+          <span>Email verified! Enter your password to log in.</span>
+        </div>
+      )}
+
       {/* Mode tabs */}
       <div className="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-2xl mb-6" role="tablist">
         <button role="tab" aria-selected={mode === "parent"} aria-controls="parent-panel"

@@ -47,6 +47,7 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null;
         const valid = await compare(parsed.data.password, user.passwordHash);
         if (!valid) return null;
+        if (!user.emailVerified) throw new Error("EMAIL_NOT_VERIFIED");
         return { id: user.id, email: user.email, name: user.name ?? undefined, role: "parent", plan: user.plan };
       },
     }),
