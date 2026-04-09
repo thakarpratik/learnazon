@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     const { name, email, subject, message } = parsed.data;
     const toEmail = process.env.CONTACT_TO_EMAIL ?? "admin@flinchi.com";
 
+    // Send to admin — this is the critical one
     await transporter.sendMail({
       from: FROM,
       to: toEmail,
@@ -39,8 +40,8 @@ export async function POST(req: NextRequest) {
         </div>`,
     });
 
-    // Auto-reply to sender
-    await transporter.sendMail({
+    // Auto-reply — non-fatal
+    transporter.sendMail({
       from: FROM,
       to: email,
       subject: "We got your message! 👋",
@@ -55,15 +56,16 @@ export async function POST(req: NextRequest) {
               We've received your message and will get back to you within <strong>1 business day</strong>.
             </p>
             <p style="color:#6b7280;font-size:13px;margin:16px 0 0;">
-              In the meantime, follow us on Instagram <a href="https://instagram.com/getflinchi" style="color:#ff6b35;">@getflinchi</a> for tips and updates.
+              Follow us on Instagram <a href="https://instagram.com/getflinchi" style="color:#ff6b35;">@getflinchi</a> for tips and updates.
             </p>
           </div>
         </div>`,
-    });
+    }).catch((e) => console.error("[contact auto-reply]", e));
 
     return NextResponse.json({ sent: true });
   } catch (error) {
-    console.error("[contact]", error);
-    return NextResponse.json({ message: "Failed to send message" }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("[contact]", msg);
+    return NextResponse.json({ message: msg }, { status: 500 });
   }
 }
