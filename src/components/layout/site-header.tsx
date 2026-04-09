@@ -46,7 +46,7 @@ export function SiteHeader() {
           className="flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           aria-label="Flinchi home"
         >
-          <Image src="/flinchi.svg" alt="Flinchi" width={120} height={36} priority />
+          <Image src="/flinchi.svg" alt="Flinchi" width={160} height={48} priority />
         </Link>
 
         {/* Desktop nav */}
