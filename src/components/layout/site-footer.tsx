@@ -35,8 +35,13 @@ export function SiteFooter() {
           {/* Brand column */}
           <div className="flex flex-col">
             {/* Logo */}
-            <Link href="/" className="block mb-4 w-fit" aria-label="Flinchi home">
-              <Image src="/flinchi.svg" alt="Flinchi" width={140} height={42} />
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center mb-4 w-fit px-4 py-2 rounded-xl"
+              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+              aria-label="Flinchi home"
+            >
+              <Image src="/flinchi.svg" alt="Flinchi" width={120} height={36} />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               AI-powered learning for children aged 5–10. Making education magical, one game at a time.
