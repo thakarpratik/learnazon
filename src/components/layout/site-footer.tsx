@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = {
   Product: [
@@ -34,20 +35,8 @@ export function SiteFooter() {
           {/* Brand column */}
           <div>
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit" aria-label="Flinchi home">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg font-black select-none"
-                style={{
-                  background: "linear-gradient(135deg, #4F46E5 0%, #818CF8 100%)",
-                  border: "2px solid #818CF8",
-                }}
-                aria-hidden="true"
-              >
-                K
-              </div>
-              <span className="font-baloo text-2xl font-extrabold" style={{ color: "#818CF8" }}>
-                Flinchi
-              </span>
+            <Link href="/" className="flex items-center mb-5 w-fit" aria-label="Flinchi home">
+              <Image src="/flinchi.svg" alt="Flinchi" width={120} height={36} />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               AI-powered learning for children aged 5–10. Making education magical, one game at a time.

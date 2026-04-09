@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -133,9 +134,8 @@ export function ParentDashboard() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-3xl">🌟</span>
-            <span className="font-fredoka text-2xl font-bold" style={{ color: "var(--color-blue)" }}>Flinchi</span>
+          <Link href="/">
+            <Image src="/flinchi.svg" alt="Flinchi" width={110} height={32} priority />
           </Link>
 
           <div className="flex items-center gap-3">

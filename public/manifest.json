@@ -1,11 +1,11 @@
 {
-  "name": "KidLearn – Learning for Kids",
-  "short_name": "KidLearn",
+  "name": "Flinchi – Learning for Kids",
+  "short_name": "Flinchi",
   "description": "AI-powered learning for children aged 5–10",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F5F7FA",
-  "theme_color": "#3D5AFE",
+  "theme_color": "#4F46E5",
   "orientation": "portrait-primary",
   "categories": ["education", "kids"]
 }

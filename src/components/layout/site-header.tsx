@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 
@@ -45,24 +46,7 @@ export function SiteHeader() {
           className="flex items-center gap-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           aria-label="Flinchi home"
         >
-          {/* Clay logo mark */}
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-lg font-black select-none"
-            style={{
-              background: "linear-gradient(135deg, #4F46E5 0%, #818CF8 100%)",
-              border: "2px solid #3730A3",
-              boxShadow: "0 3px 0px rgba(55,48,163,0.4)",
-            }}
-            aria-hidden="true"
-          >
-            K
-          </div>
-          <span
-            className="font-baloo text-2xl font-extrabold tracking-tight"
-            style={{ color: "var(--indigo)" }}
-          >
-            Flinchi
-          </span>
+          <Image src="/flinchi.svg" alt="Flinchi" width={120} height={36} priority />
         </Link>
 
         {/* Desktop nav */}
