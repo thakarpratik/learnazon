@@ -8,10 +8,17 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // In production: POST to /api/contact which sends via Resend
-    // For now simulate success
-    await new Promise((r) => setTimeout(r, 1000));
-    setStatus("sent");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   if (status === "sent") {
@@ -19,7 +26,7 @@ export function ContactForm() {
       <div className="card p-10 text-center border border-green-200 bg-green-50">
         <div className="text-5xl mb-4">✅</div>
         <h2 className="font-fredoka text-2xl font-bold text-gray-800 mb-2">Message sent!</h2>
-        <p className="text-gray-500">We&apos;ll get back to you within 1 business day.</p>
+        <p className="text-gray-500">We'll get back to you within 1 business day.</p>
       </div>
     );
   }
@@ -27,22 +34,30 @@ export function ContactForm() {
   return (
     <div className="card p-8 border border-orange-100">
       <h2 className="font-fredoka text-2xl font-bold text-gray-800 mb-6">Send us a message</h2>
+      {status === "error" && (
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 mb-5 text-sm font-medium">
+          Something went wrong. Please try again.
+        </div>
+      )}
       <form onSubmit={handleSubmit} noValidate className="space-y-5">
         <div>
           <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">Your name</label>
-          <input id="name" type="text" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+          <input id="name" type="text" required value={form.name}
+            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-400 focus:outline-none font-medium"
             placeholder="Jane Smith" />
         </div>
         <div>
           <label htmlFor="contact-email" className="block text-sm font-bold text-gray-700 mb-2">Email address</label>
-          <input id="contact-email" type="email" required value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+          <input id="contact-email" type="email" required value={form.email}
+            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-400 focus:outline-none font-medium"
             placeholder="jane@example.com" />
         </div>
         <div>
           <label htmlFor="subject" className="block text-sm font-bold text-gray-700 mb-2">Subject</label>
-          <select id="subject" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+          <select id="subject" value={form.subject}
+            onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-400 focus:outline-none font-medium bg-white">
             <option>General</option>
             <option>Technical support</option>
@@ -55,11 +70,13 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">Message</label>
-          <textarea id="message" required rows={5} value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+          <textarea id="message" required rows={5} value={form.message}
+            onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-400 focus:outline-none font-medium resize-none"
             placeholder="How can we help?" />
         </div>
-        <button type="submit" disabled={status === "sending" || !form.name || !form.email || !form.message}
+        <button type="submit"
+          disabled={status === "sending" || !form.name || !form.email || !form.message}
           className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed">
           {status === "sending" ? "Sending…" : "Send Message →"}
         </button>
