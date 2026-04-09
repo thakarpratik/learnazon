@@ -33,10 +33,10 @@ export function SiteFooter() {
       <div className="section-container py-14">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand column */}
-          <div>
+          <div className="flex flex-col">
             {/* Logo */}
-            <Link href="/" className="block mb-5 w-fit" aria-label="Flinchi home">
-              <Image src="/flinchi.svg" alt="Flinchi" width={200} height={60} />
+            <Link href="/" className="block mb-4 w-fit" aria-label="Flinchi home">
+              <Image src="/flinchi.svg" alt="Flinchi" width={140} height={42} />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               AI-powered learning for children aged 5–10. Making education magical, one game at a time.
