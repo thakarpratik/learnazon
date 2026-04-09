@@ -1,12 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
-
-function getResend() {
-  return new Resend(process.env.RESEND_API_KEY ?? "placeholder");
-}
+import { transporter, FROM } from "@/lib/mailer";
 
 const MODULE_LABELS: Record<string, string> = {
   MATH:           "Math 🔢",
@@ -167,17 +163,12 @@ export async function POST(req: NextRequest) {
 </body>
 </html>`;
 
-    const { error } = await getResend().emails.send({
-      from: "Flinchi <reports@flinchi.com>",
+    await transporter.sendMail({
+      from: FROM,
       to: parent.email,
       subject: `${childName} finished learning for today! Here's how they did 🌟`,
       html,
     });
-
-    if (error) {
-      console.error("[email daily]", error);
-      return NextResponse.json({ message: "Email send failed" }, { status: 500 });
-    }
 
     return NextResponse.json({ sent: true });
   } catch (error) {

@@ -2,13 +2,9 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { Resend } from "resend";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
-
-function getResend() {
-  return new Resend(process.env.RESEND_API_KEY ?? "placeholder");
-}
+import { transporter, FROM } from "@/lib/mailer";
 
 const MODULE_LABELS: Record<string, string> = {
   MATH: "Math 🔢", TIME_TELLING: "Time Telling 🕐",
@@ -80,15 +76,14 @@ export async function POST(req: NextRequest) {
   </div>
 </div></body></html>`;
 
-    const { data, error } = await getResend().emails.send({
-      from: "Flinchi <reports@flinchi.com>",
+    await transporter.sendMail({
+      from: FROM,
       to: parent.email,
-      subject: `Flinchi weekly report for ${childrenData.map(c => c.name).join(" & ")}`,
+      subject: `Flinchi weekly report for ${childrenData.map((c) => c.name).join(" & ")}`,
       html,
     });
 
-    if (error) return NextResponse.json({ message: "Failed to send email" }, { status: 500 });
-    return NextResponse.json({ sent: true, id: data?.id });
+    return NextResponse.json({ sent: true });
   } catch (error) {
     console.error("[email weekly]", error);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });
