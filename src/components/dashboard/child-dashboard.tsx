@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { buildChildTheme, FAVORITE_GAMES } from "@/lib/personalisation";
+import { ThemeBackground } from "@/components/dashboard/theme-background";
 
 const MODULES = [
   {
@@ -162,10 +163,8 @@ export function ChildDashboard() {
   };
 
   return (
-    <div
-      className="min-h-screen"
-      style={{ background: "linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 60%, #EEF2FF 100%)" }}
-    >
+    <div className="min-h-screen relative">
+      <ThemeBackground gameId={user?.favoriteGame} favoriteColor={theme.color} />
 
       {/* ── Badge celebration overlay ── */}
       {newBadge && (
