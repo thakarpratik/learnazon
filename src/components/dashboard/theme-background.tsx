@@ -8,6 +8,10 @@ interface Props {
 }
 
 // Each theme: bg gradient + floating particles defined as emoji + count + animation
+export const DARK_GAME_THEMES = new Set([
+  "minecraft", "roblox", "fortnite", "among_us", "superheroes",
+]);
+
 const THEMES: Record<string, {
   gradient: string;
   particles: { emoji: string; count: number }[];

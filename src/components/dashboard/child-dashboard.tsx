@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { buildChildTheme, FAVORITE_GAMES } from "@/lib/personalisation";
-import { ThemeBackground } from "@/components/dashboard/theme-background";
+import { ThemeBackground, DARK_GAME_THEMES } from "@/components/dashboard/theme-background";
 
 const MODULES = [
   {
@@ -157,6 +157,11 @@ export function ChildDashboard() {
 
   const mascotName     = user?.mascotName ? user.mascotName : theme.animal;
   const favoriteGame   = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
+  const isDark         = DARK_GAME_THEMES.has(user?.favoriteGame ?? "");
+  const textColor      = isDark ? "white" : "var(--text)";
+  const mutedColor     = isDark ? "rgba(255,255,255,0.7)" : "var(--muted)";
+  const cardBg         = isDark ? "rgba(255,255,255,0.12)" : "white";
+  const cardBorder     = isDark ? "rgba(255,255,255,0.2)" : undefined;
 
   const greetings: Record<string, string> = {
     morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening",
@@ -229,8 +234,8 @@ export function ChildDashboard() {
               )}
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-400">{greetings[timeOfDay]},</p>
-              <h1 className="font-baloo text-2xl font-extrabold" style={{ color: "var(--text)" }}>
+              <p className="text-xs font-bold" style={{ color: mutedColor }}>{greetings[timeOfDay]},</p>
+              <h1 className="font-baloo text-2xl font-extrabold" style={{ color: textColor }}>
                 {displayName}!
               </h1>
             </div>
@@ -298,10 +303,10 @@ export function ChildDashboard() {
         >
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
-              <p className="font-baloo text-2xl font-extrabold leading-tight" style={{ color: "var(--text)" }}>
+              <p className="font-baloo text-2xl font-extrabold leading-tight" style={{ color: textColor }}>
                 {theme.world} World
               </p>
-              <p className="text-sm font-bold mt-0.5" style={{ color: "var(--muted)" }}>
+              <p className="text-sm font-bold mt-0.5" style={{ color: mutedColor }}>
                 Age {age} · Pick a subject to play!
               </p>
               {favoriteGame && (
@@ -401,31 +406,33 @@ export function ChildDashboard() {
                 <Link
                   key={mod.id}
                   href={mod.href}
-                  className="group bg-white rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2"
+                  className="group rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2"
                   style={{
-                    border:     `3px solid ${mod.border}`,
-                    boxShadow:  `0 5px 0 ${mod.border}70`,
+                    background: cardBg,
+                    border:     `3px solid ${cardBorder ?? mod.border}`,
+                    boxShadow:  `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : mod.border + "70"}`,
+                    backdropFilter: isDark ? "blur(8px)" : undefined,
                   }}
                   aria-label={`Go to ${mod.label}`}
                 >
                   {/* Icon area */}
                   <div
                     className="p-5 flex items-center justify-center"
-                    style={{ background: mod.bg }}
+                    style={{ background: isDark ? "rgba(255,255,255,0.08)" : mod.bg }}
                   >
                     <div
                       className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
-                      style={{ background: "white", border: `2px solid ${mod.border}`, boxShadow: `0 3px 0 ${mod.border}60` }}
+                      style={{ background: isDark ? "rgba(255,255,255,0.15)" : "white", border: `2px solid ${isDark ? "rgba(255,255,255,0.3)" : mod.border}`, boxShadow: `0 3px 0 ${isDark ? "rgba(0,0,0,0.2)" : mod.border + "60"}` }}
                       aria-hidden="true"
                     >
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={isDark ? "white" : mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d={mod.iconPath} />
                       </svg>
                     </div>
                   </div>
                   {/* Label */}
                   <div className="px-3 pb-4 pt-2 text-center">
-                    <p className="font-baloo text-base font-extrabold" style={{ color: "var(--text)" }}>
+                    <p className="font-baloo text-base font-extrabold" style={{ color: textColor }}>
                       {mod.label}
                     </p>
                   </div>
@@ -445,9 +452,10 @@ export function ChildDashboard() {
         <div
           className="rounded-[20px] p-5 flex items-center gap-4"
           style={{
-            background:  "white",
-            border:      `3px solid ${streak > 0 ? "#F97316" : "var(--border)"}`,
-            boxShadow:   `0 5px 0 ${streak > 0 ? "#F9731660" : "var(--border)"}`,
+            background:  cardBg,
+            backdropFilter: isDark ? "blur(8px)" : undefined,
+            border:      `3px solid ${isDark ? "rgba(255,255,255,0.2)" : streak > 0 ? "#F97316" : "var(--border)"}`,
+            boxShadow:   `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : streak > 0 ? "#F9731660" : "var(--border)"}`,
           }}
         >
           <div
@@ -461,12 +469,12 @@ export function ChildDashboard() {
             {theme.animal}
           </div>
           <div className="min-w-0">
-            <p className="font-baloo text-lg font-extrabold" style={{ color: "var(--text)" }}>
+            <p className="font-baloo text-lg font-extrabold" style={{ color: textColor }}>
               {streak > 0
                 ? `${streak}-day streak! Keep it going!`
                 : "Start your streak today!"}
             </p>
-            <p className="text-sm font-medium" style={{ color: "var(--muted)" }}>
+            <p className="text-sm font-medium" style={{ color: mutedColor }}>
               {streak > 0
                 ? `${mascotName} is so proud of you!`
                 : `Complete an activity and ${mascotName} will cheer for you!`}

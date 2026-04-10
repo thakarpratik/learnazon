@@ -62,20 +62,21 @@ export async function POST(req: NextRequest) {
     const passwordHash = await hashPassword(password);
     const emailVerifyToken = randomBytes(32).toString("hex");
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: { name, email, passwordHash, plan, emailVerifyToken, marketingOptIn },
-      select: { id: true, email: true, name: true, plan: true },
+      select: { id: true },
     });
 
-    // Send verification email
+    // Send verification email — non-fatal if it fails
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://flinchi.com";
     const verifyUrl = `${appUrl}/api/auth/verify-email?token=${emailVerifyToken}`;
 
-    await transporter.sendMail({
-      from: FROM,
-      to: email,
-      subject: "Verify your Flinchi account ✉️",
-      html: `<!DOCTYPE html>
+    try {
+      await transporter.sendMail({
+        from: FROM,
+        to: email,
+        subject: "Verify your Flinchi account ✉️",
+        html: `<!DOCTYPE html>
 <html>
 <body style="margin:0;padding:0;background:#fffbf5;font-family:'Helvetica Neue',Arial,sans-serif;">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px;">
@@ -99,11 +100,16 @@ export async function POST(req: NextRequest) {
 </div>
 </body>
 </html>`,
-    });
+      });
+    } catch (mailErr) {
+      console.error("[signup] email send failed:", mailErr);
+      // Account created but email failed — still return success so user sees the check-inbox screen
+      // They can request a resend later
+    }
 
-    // Add to Brevo marketing list if opted in
+    // Add to Brevo marketing list if opted in — also non-fatal
     if (marketingOptIn) {
-      await addToBrevoList(email, name);
+      addToBrevoList(email, name);
     }
 
     return NextResponse.json({ pendingVerification: true }, { status: 201 });
