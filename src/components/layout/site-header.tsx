@@ -8,6 +8,7 @@ import { useSession, signOut } from "next-auth/react";
 const NAV_LINKS = [
   { href: "/#features",  label: "Features"      },
   { href: "/#modules",   label: "What We Teach"  },
+  { href: "/reviews",    label: "Reviews"        },
   { href: "/#pricing",   label: "Pricing"        },
   { href: "/blog",       label: "Blog"           },
 ] as const;
