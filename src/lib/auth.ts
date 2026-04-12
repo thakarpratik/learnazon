@@ -75,10 +75,12 @@ export const authOptions: NextAuthOptions = {
         const valid = await compare(credentials.pin, child.pin);
         if (!valid) return null;
 
+        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true } });
         return {
           id: child.id, name: child.name, nickname: child.nickname,
           email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
+          plan: parent?.plan ?? "FREE",
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
           learningStyle: child.learningStyle, mascotName: child.mascotName,
@@ -109,10 +111,12 @@ export const authOptions: NextAuthOptions = {
         // Only allow if this child actually belongs to the requesting parent
         if (!child || child.parentId !== credentials.parentId) return null;
 
+        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true } });
         return {
           id: child.id, name: child.name, nickname: child.nickname,
           email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
+          plan: parent?.plan ?? "FREE",
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
           learningStyle: child.learningStyle, mascotName: child.mascotName,

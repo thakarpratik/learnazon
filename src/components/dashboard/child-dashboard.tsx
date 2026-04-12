@@ -9,56 +9,56 @@ import { ThemeBackground, DARK_GAME_THEMES } from "@/components/dashboard/theme-
 
 const MODULES = [
   {
-    id: "math",     label: "Math",        href: "/learn/math",
+    id: "math",     label: "Math",        href: "/learn/math",    premium: false,
     bg: "#FFF7ED", border: "#F97316", iconColor: "#C2410C",
     iconPath: "M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.616 4.5 4.698V18a2.25 2.25 0 002.25 2.25h10.5A2.25 2.25 0 0019.5 18V4.698c0-1.082-.807-1.998-1.907-2.126A48.507 48.507 0 0012 2.25z",
   },
   {
-    id: "time",     label: "Time",        href: "/learn/time",
+    id: "time",     label: "Time",        href: "/learn/time",    premium: false,
     bg: "#EEF2FF", border: "#4F46E5", iconColor: "#3730A3",
     iconPath: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
-    id: "speaking", label: "Speaking",    href: "/learn/speaking",
-    bg: "#ECFDF5", border: "#34D399", iconColor: "#065F46",
-    iconPath: "M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z",
-  },
-  {
-    id: "money",    label: "Money",       href: "/learn/money",
-    bg: "#FFFBEB", border: "#FBBF24", iconColor: "#92400E",
-    iconPath: "M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    id: "words",    label: "Spelling",    href: "/learn/words",
+    id: "words",    label: "Spelling",    href: "/learn/words",   premium: false,
     bg: "#F5F3FF", border: "#A78BFA", iconColor: "#5B21B6",
     iconPath: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
   },
   {
-    id: "life",     label: "Life Skills", href: "/learn/life",
+    id: "money",    label: "Money",       href: "/learn/money",   premium: true,
+    bg: "#FFFBEB", border: "#FBBF24", iconColor: "#92400E",
+    iconPath: "M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    id: "speaking", label: "Speaking",    href: "/learn/speaking", premium: true,
+    bg: "#ECFDF5", border: "#34D399", iconColor: "#065F46",
+    iconPath: "M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z",
+  },
+  {
+    id: "life",     label: "Life Skills", href: "/learn/life",    premium: true,
     bg: "#FFF1F2", border: "#FB7185", iconColor: "#9F1239",
     iconPath: "M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.97zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.97z",
   },
   {
-    id: "writing",  label: "Writing",     href: "/learn/writing",
+    id: "writing",  label: "Writing",     href: "/learn/writing", premium: true,
     bg: "#EEF2FF", border: "#6366F1", iconColor: "#3730A3",
     iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
   },
   {
-    id: "science",  label: "Science",     href: "/learn/science",
+    id: "science",  label: "Science",     href: "/learn/science", premium: true,
     bg: "#F0FDFA", border: "#14B8A6", iconColor: "#0F766E",
     iconPath: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21a48.25 48.25 0 01-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5",
   },
   {
-    id: "spanish",  label: "Spanish",     href: "/learn/spanish",
+    id: "spanish",  label: "Spanish",     href: "/learn/spanish", premium: true,
     bg: "#FFF1F2", border: "#EF4444", iconColor: "#B91C1C",
     iconPath: "M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802",
   },
   {
-    id: "movies",   label: "Movies",      href: "/learn/movies",
+    id: "movies",   label: "Movies",      href: "/learn/movies",  premium: true,
     bg: "#F5F3FF", border: "#7C3AED", iconColor: "#5B21B6",
     iconPath: "M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75.125v-3.375C2.25 13.5 2.625 13.5 3.375 13.5h17.25c.75 0 1.125 0 1.125 1.625v3.375M6 18.375V6.75a1.125 1.125 0 00-1.125-1.125H3.375A1.125 1.125 0 002.25 6.75v11.625M6 18.375c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V6.375a1.125 1.125 0 00-1.125-1.125H7.125A1.125 1.125 0 006 6.375v12M18 18.375V6.75a1.125 1.125 0 011.125-1.125h1.5c.621 0 1.125.504 1.125 1.125v11.625",
   },
-] as const;
+];
 
 const DAILY_LIMIT = 3;
 
@@ -157,6 +157,7 @@ export function ChildDashboard() {
 
   const mascotName     = user?.mascotName ? user.mascotName : theme.animal;
   const favoriteGame   = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
+  const isPremium      = user?.plan === "PRO" || user?.plan === "FAMILY";
   const isDark         = DARK_GAME_THEMES.has(user?.favoriteGame ?? "");
   const textColor      = isDark ? "white" : "var(--text)";
   const mutedColor     = isDark ? "rgba(255,255,255,0.7)" : "var(--muted)";
@@ -402,48 +403,99 @@ export function ChildDashboard() {
             )}
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mb-5">
-              {MODULES.map((mod) => (
-                <Link
-                  key={mod.id}
-                  href={mod.href}
-                  className="group rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2"
-                  style={{
-                    background: cardBg,
-                    border:     `3px solid ${cardBorder ?? mod.border}`,
-                    boxShadow:  `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : mod.border + "70"}`,
-                    backdropFilter: isDark ? "blur(8px)" : undefined,
-                  }}
-                  aria-label={`Go to ${mod.label}`}
-                >
-                  {/* Icon area */}
-                  <div
-                    className="p-5 flex items-center justify-center"
-                    style={{ background: isDark ? "rgba(255,255,255,0.08)" : mod.bg }}
+              {MODULES.map((mod) => {
+                const locked = mod.premium && !isPremium;
+                const CardEl = locked ? "div" : Link;
+                const cardProps = locked
+                  ? { onClick: () => window.location.href = "/pricing" }
+                  : { href: mod.href };
+
+                return (
+                  <CardEl
+                    key={mod.id}
+                    {...(cardProps as any)}
+                    className={`group relative rounded-[20px] overflow-hidden transition-all duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-offset-2 ${locked ? "cursor-pointer hover:-translate-y-1" : "hover:-translate-y-2"}`}
+                    style={{
+                      background: locked ? (isDark ? "rgba(255,255,255,0.06)" : "#F9FAFB") : cardBg,
+                      border:     `3px solid ${locked ? (isDark ? "rgba(255,255,255,0.12)" : "#E5E7EB") : (cardBorder ?? mod.border)}`,
+                      boxShadow:  locked ? "none" : `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : mod.border + "70"}`,
+                      backdropFilter: isDark ? "blur(8px)" : undefined,
+                    }}
+                    aria-label={locked ? `${mod.label} — Premium` : `Go to ${mod.label}`}
                   >
+                    {/* Icon area */}
                     <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
-                      style={{ background: isDark ? "rgba(255,255,255,0.15)" : "white", border: `2px solid ${isDark ? "rgba(255,255,255,0.3)" : mod.border}`, boxShadow: `0 3px 0 ${isDark ? "rgba(0,0,0,0.2)" : mod.border + "60"}` }}
-                      aria-hidden="true"
+                      className="p-5 flex items-center justify-center"
+                      style={{ background: locked ? (isDark ? "rgba(255,255,255,0.04)" : "#F3F4F6") : (isDark ? "rgba(255,255,255,0.08)" : mod.bg) }}
                     >
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={isDark ? "white" : mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d={mod.iconPath} />
-                      </svg>
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105"
+                        style={{
+                          background: locked ? (isDark ? "rgba(255,255,255,0.08)" : "#E5E7EB") : (isDark ? "rgba(255,255,255,0.15)" : "white"),
+                          border: `2px solid ${locked ? (isDark ? "rgba(255,255,255,0.15)" : "#D1D5DB") : (isDark ? "rgba(255,255,255,0.3)" : mod.border)}`,
+                          boxShadow: locked ? "none" : `0 3px 0 ${isDark ? "rgba(0,0,0,0.2)" : mod.border + "60"}`,
+                        }}
+                        aria-hidden="true"
+                      >
+                        {locked ? (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isDark ? "rgba(255,255,255,0.4)" : "#9CA3AF"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                          </svg>
+                        ) : (
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={isDark ? "white" : mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d={mod.iconPath} />
+                          </svg>
+                        )}
+                      </div>
                     </div>
+                    {/* Label */}
+                    <div className="px-3 pb-4 pt-2 text-center">
+                      <p className="font-baloo text-base font-extrabold" style={{ color: locked ? (isDark ? "rgba(255,255,255,0.35)" : "#9CA3AF") : textColor }}>
+                        {mod.label}
+                      </p>
+                      {locked && (
+                        <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full mt-1"
+                          style={{ background: "#FEF3C7", color: "#D97706", border: "1px solid #FCD34D" }}>
+                          ⭐ Premium
+                        </span>
+                      )}
+                    </div>
+                    {/* Bottom accent bar — only for unlocked */}
+                    {!locked && (
+                      <div
+                        className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-xl"
+                        style={{ background: mod.border }}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </CardEl>
+                );
+              })}
+
+              {/* Coming soon teaser card */}
+              <div
+                className="rounded-[20px] overflow-hidden"
+                style={{
+                  background: isDark ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg, #F5F3FF, #EEF2FF)",
+                  border: `3px dashed ${isDark ? "rgba(255,255,255,0.15)" : "#C4B5FD"}`,
+                }}
+              >
+                <div className="p-5 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: isDark ? "rgba(255,255,255,0.08)" : "#EDE9FE" }}>
+                    ✨
                   </div>
-                  {/* Label */}
-                  <div className="px-3 pb-4 pt-2 text-center">
-                    <p className="font-baloo text-base font-extrabold" style={{ color: textColor }}>
-                      {mod.label}
-                    </p>
-                  </div>
-                  {/* Bottom accent bar */}
-                  <div
-                    className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-xl"
-                    style={{ background: mod.border }}
-                    aria-hidden="true"
-                  />
-                </Link>
-              ))}
+                </div>
+                <div className="px-3 pb-4 pt-2 text-center">
+                  <p className="font-baloo text-sm font-extrabold" style={{ color: isDark ? "rgba(255,255,255,0.5)" : "#7C3AED" }}>
+                    More coming!
+                  </p>
+                  <p className="text-xs font-medium mt-0.5" style={{ color: isDark ? "rgba(255,255,255,0.3)" : "#A78BFA" }}>
+                    New module every month
+                  </p>
+                </div>
+              </div>
             </div>
           </>
         )}
