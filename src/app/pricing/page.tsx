@@ -21,12 +21,12 @@ const PLANS = [
     href: "/signup",
     features: [
       "3 activities per day",
-      "All 6 learning modules",
+      "3 core modules: Math, Time & Spelling",
       "Stars & badges",
       "1 child profile",
       "Basic progress tracking",
     ],
-    missing: ["Parent dashboard", "Unlimited activities", "Weekly email reports", "Multiple children"],
+    missing: ["7 premium modules", "Parent dashboard", "Unlimited activities", "Weekly email reports", "Multiple children"],
   },
   {
     name: "Pro",
@@ -42,7 +42,8 @@ const PLANS = [
     disabled: true,
     features: [
       "Unlimited activities",
-      "All 6 learning modules",
+      "All 10 learning modules",
+      "New module every month",
       "Full parent dashboard",
       "Weekly email reports",
       "AI adaptive difficulty",
@@ -67,13 +68,14 @@ const PLANS = [
       "Up to 4 child profiles",
       "Family progress overview",
       "Individual child reports",
+      "New module every month",
     ],
     missing: [],
   },
 ];
 
 const FAQS = [
-  { q: "Is Flinchi really free?", a: "Yes! The free plan gives your child access to all 6 learning modules with 3 activities per day. No credit card required." },
+  { q: "Is Flinchi really free?", a: "Yes! The free plan gives your child access to 3 core learning modules (Math, Time Telling, Spelling) with 3 activities per day. No credit card required." },
   { q: "When will paid plans be available?", a: "We're focused on making the free experience excellent before introducing paid plans. Sign up for free and you'll be notified when Pro launches." },
   { q: "Is there a limit on how many children can use the free plan?", a: "The free plan supports 1 child profile. Additional profiles will be available on the Family plan when it launches." },
   { q: "How is my child's data protected?", a: "We are fully COPPA compliant. Children's profiles contain only a nickname and PIN — no email, phone, or personal contact information. See our Privacy Policy for full details." },
