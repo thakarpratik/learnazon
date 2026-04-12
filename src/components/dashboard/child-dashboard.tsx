@@ -60,7 +60,7 @@ const MODULES = [
   },
 ];
 
-const DAILY_LIMIT = 3;
+const FREE_DAILY_LIMIT = 3;
 
 const CHEERS = [
   "You can do it!",
@@ -158,6 +158,7 @@ export function ChildDashboard() {
   const mascotName     = user?.mascotName ? user.mascotName : theme.animal;
   const favoriteGame   = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
   const isPremium      = user?.plan === "PRO" || user?.plan === "FAMILY";
+  const dailyLimit     = isPremium ? Infinity : FREE_DAILY_LIMIT;
   const isDark         = DARK_GAME_THEMES.has(user?.favoriteGame ?? "");
   const textColor      = isDark ? "white" : "var(--text)";
   const mutedColor     = isDark ? "rgba(255,255,255,0.7)" : "var(--muted)";
@@ -360,44 +361,68 @@ export function ChildDashboard() {
       <main className="max-w-2xl mx-auto px-4 pb-10" id="main-content">
 
         {/* ── Daily limit reached ── */}
-        {sessionsToday !== null && sessionsToday >= DAILY_LIMIT ? (
+        {sessionsToday !== null && sessionsToday >= dailyLimit ? (
           <div
             className="rounded-[24px] p-8 text-center mb-5"
             style={{
-              background: "white",
-              border: "3px solid #818CF8",
-              boxShadow: "0 8px 0 #818CF840",
+              background: cardBg,
+              backdropFilter: isDark ? "blur(12px)" : undefined,
+              border: `3px solid ${isDark ? "rgba(255,255,255,0.2)" : "#818CF8"}`,
+              boxShadow: isDark ? "0 8px 0 rgba(0,0,0,0.3)" : "0 8px 0 #818CF840",
             }}
           >
             <div className="text-6xl mb-4">🌙</div>
-            <h2 className="font-baloo text-2xl font-extrabold mb-2" style={{ color: "var(--text)" }}>
+            <h2 className="font-baloo text-2xl font-extrabold mb-2" style={{ color: textColor }}>
               You&apos;re done for today!
             </h2>
-            <p className="font-medium mb-1" style={{ color: "var(--muted)" }}>
+            <p className="font-medium mb-1" style={{ color: mutedColor }}>
               That&apos;s <strong>{sessionsToday} sessions</strong> — amazing effort, {displayName}!
             </p>
-            <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
+            <p className="text-sm mb-6" style={{ color: mutedColor }}>
               Your brain needs rest to lock in everything you learned.
               Come back tomorrow with a fresh mind for a new challenge! 💤
             </p>
             <div
-              className="rounded-2xl px-5 py-3 inline-flex items-center gap-2 font-bold text-sm"
-              style={{ background: "#EEF2FF", color: "#4F46E5", border: "2px solid #818CF8" }}
+              className="rounded-2xl px-5 py-3 inline-flex items-center gap-2 font-bold text-sm mb-4"
+              style={{ background: isDark ? "rgba(79,70,229,0.3)" : "#EEF2FF", color: isDark ? "#A5B4FC" : "#4F46E5", border: `2px solid ${isDark ? "rgba(129,140,248,0.4)" : "#818CF8"}` }}
             >
               <span>🔥</span>
               {streak > 0 ? `${streak}-day streak — keep it going tomorrow!` : "Start a streak tomorrow!"}
             </div>
+            {/* Upgrade prompt for free users */}
+            {!isPremium && (
+              <div className="mt-2">
+                <div
+                  className="rounded-2xl p-4 mb-3"
+                  style={{ background: "linear-gradient(135deg, #FFF7ED, #FEF3C7)", border: "2px solid #FBBF24" }}
+                >
+                  <p className="font-baloo text-base font-extrabold text-gray-800 mb-1">
+                    ⭐ Want unlimited sessions?
+                  </p>
+                  <p className="text-sm text-gray-500 mb-3">
+                    Upgrade to Premium and {displayName} can learn as much as they want, every day!
+                  </p>
+                  <a
+                    href="/pricing"
+                    className="inline-block font-bold text-sm px-6 py-2.5 rounded-xl text-white transition-all hover:-translate-y-0.5"
+                    style={{ background: "linear-gradient(135deg, #F97316, #FB923C)", boxShadow: "0 4px 0 #C2410C" }}
+                  >
+                    Unlock Unlimited →
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <>
-            {/* Session counter pill */}
-            {sessionsToday !== null && sessionsToday > 0 && (
+            {/* Session counter pill — only show for free users */}
+            {!isPremium && sessionsToday !== null && sessionsToday > 0 && (
               <div className="flex justify-end mb-2">
                 <span
                   className="text-xs font-bold px-3 py-1 rounded-full"
                   style={{ background: "#FFF7ED", color: "#C2410C", border: "2px solid #F97316" }}
                 >
-                  {sessionsToday}/{DAILY_LIMIT} sessions today
+                  {sessionsToday}/{FREE_DAILY_LIMIT} sessions today
                 </span>
               </div>
             )}
