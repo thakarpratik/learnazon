@@ -16,12 +16,13 @@ const plans = [
     href: "/signup",
     features: [
       "3 activities per day",
-      "All 6 learning modules",
+      "3 core modules: Math, Time & Spelling",
       "Stars & badges",
       "1 child profile",
       "Basic progress tracking",
     ],
     missing: [
+      "7 premium modules",
       "Parent dashboard",
       "Unlimited activities",
       "Weekly email reports",
@@ -43,7 +44,8 @@ const plans = [
     href: "/signup?plan=pro",
     features: [
       "Unlimited activities",
-      "All 6 learning modules",
+      "All 10 learning modules",
+      "New module every month",
       "Full parent dashboard",
       "Weekly email reports",
       "AI adaptive difficulty",
@@ -71,6 +73,7 @@ const plans = [
       "Family progress overview",
       "Individual child reports",
       "Shared badge celebrations",
+      "New module every month",
     ],
     missing: [],
   },
