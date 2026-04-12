@@ -21,7 +21,8 @@ export function LoginForm() {
   const params = useSearchParams();
   const [mode, setMode] = useState<Mode>("parent");
   const [childStep, setChildStep] = useState<ChildStep>("select");
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified]     = useState(false);
+  const [passwordReset, setPasswordReset] = useState(false);
 
   // Parent login
   const [email, setEmail] = useState("");
@@ -38,6 +39,7 @@ export function LoginForm() {
       setVerified(true);
       if (emailParam) setEmail(decodeURIComponent(emailParam));
     }
+    if (params.get("reset") === "true") setPasswordReset(true);
     if (params.get("error") === "invalid-token") {
       setError("This verification link is invalid or has expired. Please sign up again.");
     }
@@ -142,6 +144,12 @@ export function LoginForm() {
         <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-5 text-sm font-medium flex items-center gap-2">
           <span>✅</span>
           <span>Email verified! Enter your password to log in.</span>
+        </div>
+      )}
+      {passwordReset && (
+        <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-5 text-sm font-medium flex items-center gap-2">
+          <span>🔑</span>
+          <span>Password updated! You can now log in with your new password.</span>
         </div>
       )}
 

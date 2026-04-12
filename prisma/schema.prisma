@@ -15,6 +15,8 @@ model User {
   plan               Plan          @default(FREE)
   emailVerified      DateTime?
   emailVerifyToken   String?       @unique
+  resetToken         String?       @unique
+  resetTokenExpiry   DateTime?
   marketingOptIn     Boolean       @default(false)
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
