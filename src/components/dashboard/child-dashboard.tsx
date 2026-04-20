@@ -10,17 +10,17 @@ import { LearningStyleModal, useGameMode } from "@/components/dashboard/learning
 
 const MODULES = [
   {
-    id: "math",     label: "Math",        href: "/learn/math",    adventureHref: "/learn/math",    premium: false,
+    id: "math",     label: "Math",        href: "/learn/math",    adventureHref: "/learn/missions/math",    premium: false,
     bg: "#FFF7ED", border: "#F97316", iconColor: "#C2410C",
     iconPath: "M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.616 4.5 4.698V18a2.25 2.25 0 002.25 2.25h10.5A2.25 2.25 0 0019.5 18V4.698c0-1.082-.807-1.998-1.907-2.126A48.507 48.507 0 0012 2.25z",
   },
   {
-    id: "time",     label: "Time",        href: "/learn/time",    adventureHref: "/learn/pawpatrol", premium: false,
+    id: "time",     label: "Time",        href: "/learn/time",    adventureHref: "/learn/missions/time", premium: false,
     bg: "#EEF2FF", border: "#4F46E5", iconColor: "#3730A3",
     iconPath: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
-    id: "words",    label: "Spelling",    href: "/learn/words",   adventureHref: "/learn/words",   premium: false,
+    id: "words",    label: "Spelling",    href: "/learn/words",   adventureHref: "/learn/missions/spelling",   premium: false,
     bg: "#F5F3FF", border: "#A78BFA", iconColor: "#5B21B6",
     iconPath: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
   },
