@@ -498,6 +498,52 @@ export function ChildDashboard() {
                 );
               })}
 
+              {/* PAW Patrol gamified adventure — full-width featured card */}
+              <Link
+                href="/learn/pawpatrol"
+                className="col-span-2 sm:col-span-3 group relative rounded-[20px] overflow-hidden transition-all duration-200 hover:-translate-y-2"
+                style={{
+                  background: isDark ? "rgba(21,101,192,0.25)" : "linear-gradient(135deg, #E3F2FD, #BBDEFB)",
+                  border: `3px solid ${isDark ? "rgba(66,165,245,0.5)" : "#42A5F5"}`,
+                  boxShadow: `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : "#1565C060"}`,
+                  backdropFilter: isDark ? "blur(8px)" : undefined,
+                }}
+                aria-label="PAW Patrol Time Missions — gamified adventure"
+              >
+                <div className="flex items-center gap-4 p-4">
+                  {/* Pups row */}
+                  <div className="flex -space-x-2 flex-shrink-0">
+                    {["🐕","🐶","🐩","🐕‍🦺","🐾"].map((p,i) => (
+                      <div key={i} className="w-10 h-10 rounded-full flex items-center justify-center text-xl border-2 border-white"
+                        style={{background:["#1565C0","#C62828","#E91E8C","#2E7D32","#EF6C00"][i], zIndex:5-i}}>
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <p className="font-baloo text-base font-extrabold" style={{ color: isDark ? "white" : "#1565C0" }}>
+                        PAW Patrol Missions
+                      </p>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white"
+                        style={{background:"#1565C0"}}>NEW ✨</span>
+                    </div>
+                    <p className="text-xs font-bold" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "#42A5F5" }}>
+                      Save the day by telling time! Story missions 🕐
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center"
+                    style={{background:"#1565C0", boxShadow:"0 3px 0 #0D47A1"}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Animated bottom bar */}
+                <div className="h-1 w-0 group-hover:w-full transition-all duration-300 rounded-b-xl"
+                  style={{background:"linear-gradient(90deg,#1565C0,#42A5F5,#E91E8C)"}} aria-hidden="true"/>
+              </Link>
+
               {/* Coming soon teaser card */}
               <div
                 className="rounded-[20px] overflow-hidden"
