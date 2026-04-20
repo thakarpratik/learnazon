@@ -1,25 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export type GameMode = "adventure" | "quiz";
 
-const STORAGE_KEY = "flinchi_game_mode";
-
 export function useGameMode(): [GameMode | null, (m: GameMode) => void] {
-  const [mode, setModeState] = useState<GameMode | null>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as GameMode | null;
-    if (stored === "adventure" || stored === "quiz") setModeState(stored);
-    else setModeState(null); // triggers modal
-  }, []);
-
-  const setMode = (m: GameMode) => {
-    localStorage.setItem(STORAGE_KEY, m);
-    setModeState(m);
-  };
-
+  const [mode, setMode] = useState<GameMode | null>(null);
   return [mode, setMode];
 }
 
