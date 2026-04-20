@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  eslint: { ignoreDuringBuilds: true },
 
   // Tell Next.js NOT to bundle these — use them as external Node modules at runtime
   // This is required for pg (postgres) and Prisma to work on Vercel

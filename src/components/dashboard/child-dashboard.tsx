@@ -82,6 +82,7 @@ export function ChildDashboard() {
   const [newBadge, setNewBadge]       = useState<string | null>(null);
   const [cheer, setCheer]             = useState("");
   const [sessionsToday, setSessionsToday] = useState<number | null>(null);
+  const [gameMode, setGameMode] = useGameMode();
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -160,7 +161,6 @@ export function ChildDashboard() {
   const favoriteGame   = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
   const isPremium      = user?.plan === "PRO" || user?.plan === "FAMILY";
   const dailyLimit     = isPremium ? Infinity : FREE_DAILY_LIMIT;
-  const [gameMode, setGameMode] = useGameMode();
   const isDark         = DARK_GAME_THEMES.has(user?.favoriteGame ?? "");
   const textColor      = isDark ? "white" : "var(--text)";
   const mutedColor     = isDark ? "rgba(255,255,255,0.7)" : "var(--muted)";
