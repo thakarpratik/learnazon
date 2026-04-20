@@ -10,52 +10,62 @@ import { LearningStyleModal, useGameMode } from "@/components/dashboard/learning
 
 const MODULES = [
   {
-    id: "math",     label: "Math",        href: "/learn/math",    adventureHref: "/learn/missions/math",    premium: false,
+    id: "math",     label: "Math",        adventureLabel: "Minecraft Math",  adventureEmoji: "⛏️",
+    href: "/learn/math",    adventureHref: "/learn/missions/math",    premium: false,
     bg: "#FFF7ED", border: "#F97316", iconColor: "#C2410C",
     iconPath: "M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.616 4.5 4.698V18a2.25 2.25 0 002.25 2.25h10.5A2.25 2.25 0 0019.5 18V4.698c0-1.082-.807-1.998-1.907-2.126A48.507 48.507 0 0012 2.25z",
   },
   {
-    id: "time",     label: "Time",        href: "/learn/time",    adventureHref: "/learn/missions/time", premium: false,
+    id: "time",     label: "Time",        adventureLabel: "PAW Patrol",      adventureEmoji: "🐾",
+    href: "/learn/time",    adventureHref: "/learn/missions/time", premium: false,
     bg: "#EEF2FF", border: "#4F46E5", iconColor: "#3730A3",
     iconPath: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
-    id: "words",    label: "Spelling",    href: "/learn/words",   adventureHref: "/learn/missions/spelling",   premium: false,
+    id: "words",    label: "Spelling",    adventureLabel: "Pokémon Spell",   adventureEmoji: "⚡",
+    href: "/learn/words",   adventureHref: "/learn/missions/spelling",   premium: false,
     bg: "#F5F3FF", border: "#A78BFA", iconColor: "#5B21B6",
     iconPath: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
   },
   {
-    id: "money",    label: "Money",       href: "/learn/money",   adventureHref: "/learn/money",   premium: true,
+    id: "money",    label: "Money",       adventureLabel: "Money Quest",     adventureEmoji: "🪙",
+    href: "/learn/money",   adventureHref: "/learn/money",   premium: true,
     bg: "#FFFBEB", border: "#FBBF24", iconColor: "#92400E",
     iconPath: "M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
-    id: "speaking", label: "Speaking",    href: "/learn/speaking", adventureHref: "/learn/speaking", premium: true,
+    id: "speaking", label: "Speaking",    adventureLabel: "Voice Quest",     adventureEmoji: "🎤",
+    href: "/learn/speaking", adventureHref: "/learn/speaking", premium: true,
     bg: "#ECFDF5", border: "#34D399", iconColor: "#065F46",
     iconPath: "M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z",
   },
   {
-    id: "life",     label: "Life Skills", href: "/learn/life",    adventureHref: "/learn/life",    premium: true,
+    id: "life",     label: "Life Skills", adventureLabel: "Life Hero",       adventureEmoji: "🦸",
+    href: "/learn/life",    adventureHref: "/learn/life",    premium: true,
     bg: "#FFF1F2", border: "#FB7185", iconColor: "#9F1239",
     iconPath: "M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.97zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.97z",
   },
   {
-    id: "writing",  label: "Writing",     href: "/learn/writing", adventureHref: "/learn/writing", premium: true,
+    id: "writing",  label: "Writing",     adventureLabel: "Story Quest",     adventureEmoji: "📜",
+    href: "/learn/writing", adventureHref: "/learn/writing", premium: true,
     bg: "#EEF2FF", border: "#6366F1", iconColor: "#3730A3",
     iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
   },
   {
-    id: "science",  label: "Science",     href: "/learn/science", adventureHref: "/learn/science", premium: true,
+    id: "science",  label: "Science",     adventureLabel: "Lab Escape",      adventureEmoji: "🧪",
+    href: "/learn/science", adventureHref: "/learn/science", premium: true,
     bg: "#F0FDFA", border: "#14B8A6", iconColor: "#0F766E",
     iconPath: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21a48.25 48.25 0 01-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5",
   },
   {
-    id: "spanish",  label: "Spanish",     href: "/learn/spanish", adventureHref: "/learn/spanish", premium: true,
+    id: "spanish",  label: "Spanish",     adventureLabel: "España Quest",    adventureEmoji: "🌍",
+    href: "/learn/spanish", adventureHref: "/learn/spanish", premium: true,
     bg: "#FFF1F2", border: "#EF4444", iconColor: "#B91C1C",
     iconPath: "M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802",
   },
   {
-    id: "movies",   label: "Movies",      href: "/learn/movies",  adventureHref: "/learn/movies",  premium: true,
+    id: "movies",   label: "Movies",      adventureLabel: "Movie Mission",   adventureEmoji: "🎬",
+    href: "/learn/movies",  adventureHref: "/learn/movies",  premium: true,
     bg: "#F5F3FF", border: "#7C3AED", iconColor: "#5B21B6",
     iconPath: "M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75.125v-3.375C2.25 13.5 2.625 13.5 3.375 13.5h17.25c.75 0 1.125 0 1.125 1.625v3.375M6 18.375V6.75a1.125 1.125 0 00-1.125-1.125H3.375A1.125 1.125 0 002.25 6.75v11.625M6 18.375c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V6.375a1.125 1.125 0 00-1.125-1.125H7.125A1.125 1.125 0 006 6.375v12M18 18.375V6.75a1.125 1.125 0 011.125-1.125h1.5c.621 0 1.125.504 1.125 1.125v11.625",
   },
@@ -462,7 +472,9 @@ export function ChildDashboard() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 mb-5">
               {MODULES.map((mod) => {
                 const locked = mod.premium && !isPremium;
-                const resolvedHref = gameMode === "adventure" ? mod.adventureHref : mod.href;
+                const isAdventure = gameMode === "adventure";
+                const resolvedHref = isAdventure ? mod.adventureHref : mod.href;
+                const displayLabel = isAdventure ? mod.adventureLabel : mod.label;
                 const CardEl = locked ? "div" : Link;
                 const cardProps = locked
                   ? { onClick: () => window.location.href = "/pricing" }
@@ -479,7 +491,7 @@ export function ChildDashboard() {
                       boxShadow:  locked ? "none" : `0 5px 0 ${isDark ? "rgba(0,0,0,0.3)" : mod.border + "70"}`,
                       backdropFilter: isDark ? "blur(8px)" : undefined,
                     }}
-                    aria-label={locked ? `${mod.label} — Premium` : `Go to ${mod.label}`}
+                    aria-label={locked ? `${displayLabel} — Premium` : `Go to ${displayLabel}`}
                   >
                     {/* Icon area */}
                     <div
@@ -500,6 +512,8 @@ export function ChildDashboard() {
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                             <path d="M7 11V7a5 5 0 0110 0v4"/>
                           </svg>
+                        ) : isAdventure ? (
+                          <span className="text-2xl">{mod.adventureEmoji}</span>
                         ) : (
                           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={isDark ? "white" : mod.iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d={mod.iconPath} />
@@ -509,9 +523,12 @@ export function ChildDashboard() {
                     </div>
                     {/* Label */}
                     <div className="px-3 pb-4 pt-2 text-center">
-                      <p className="font-baloo text-base font-extrabold" style={{ color: locked ? (isDark ? "rgba(255,255,255,0.35)" : "#9CA3AF") : textColor }}>
-                        {mod.label}
+                      <p className="font-baloo text-sm font-extrabold leading-tight" style={{ color: locked ? (isDark ? "rgba(255,255,255,0.35)" : "#9CA3AF") : textColor }}>
+                        {displayLabel}
                       </p>
+                      {!locked && isAdventure && (
+                        <span className="text-xs font-bold" style={{ color: mod.border }}>Mission →</span>
+                      )}
                       {locked && (
                         <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full mt-1"
                           style={{ background: "#FEF3C7", color: "#D97706", border: "1px solid #FCD34D" }}>
