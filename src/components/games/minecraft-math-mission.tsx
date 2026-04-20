@@ -29,7 +29,7 @@ function makeChoices(answer: number, range: number): number[] {
     const w = Math.random() < 0.5 ? answer + delta : Math.max(0, answer - delta);
     if (w !== answer) wrongs.add(w);
   }
-  return [...wrongs, answer].sort(() => Math.random() - 0.5);
+  return Array.from(wrongs).concat(answer).sort(() => Math.random() - 0.5);
 }
 
 function buildMissions(age: number): MathMission[] {
