@@ -170,62 +170,85 @@ function InteractiveClock({
     x: C + Math.sin((angle * Math.PI) / 180) * len,
     y: C - Math.cos((angle * Math.PI) / 180) * len,
   });
-  const hourTip = toXY(hourAngle, 52);
-  const minTip  = toXY(minAngle, 72);
+  const hourTip  = toXY(hourAngle, 52);
+  const minTip   = toXY(minAngle,  72);
+  // Mid-points for hit areas
+  const hourMid  = toXY(hourAngle, 28);
+  const minMid   = toXY(minAngle,  42);
 
   const numbers = [12,1,2,3,4,5,6,7,8,9,10,11];
 
   return (
-    <svg viewBox="0 0 220 220" width="220" height="220" className="touch-none select-none drop-shadow-lg">
-      {/* Paw Patrol themed clock face */}
+    <svg viewBox="0 0 220 220" width="240" height="240" className="touch-none select-none drop-shadow-lg">
       {/* Outer ring */}
       <circle cx={C} cy={C} r="105" fill="#1565C0" />
       <circle cx={C} cy={C} r="100" fill="#E3F2FD" />
-      {/* Paw print tick marks */}
+      {/* Tick marks */}
       {Array.from({length:12}).map((_,i) => {
         const a = i * 30;
         const inner = i % 3 === 0 ? 82 : 88;
-        const outer = 95;
         const p1 = toXY(a, inner);
-        const p2 = toXY(a, outer);
+        const p2 = toXY(a, 95);
         return <line key={i} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y}
           stroke={i%3===0?"#1565C0":"#90CAF9"} strokeWidth={i%3===0?3:1.5} strokeLinecap="round"/>;
       })}
       {/* Numbers */}
       {numbers.map((n, i) => {
-        const a = i * 30;
-        const p = toXY(a, 74);
+        const p = toXY(i * 30, 74);
         return <text key={n} x={p.x} y={p.y} textAnchor="middle" dominantBaseline="central"
           fontSize="13" fontWeight="bold" fill="#1565C0" fontFamily="Arial">{n}</text>;
       })}
-      {/* Paw badge center top */}
-      <circle cx={C} cy="28" r="10" fill="#1565C0" opacity="0.15"/>
+      {/* Paw badge */}
       <text x={C} y="32" textAnchor="middle" fontSize="12">🐾</text>
 
-      {/* Hour hand */}
-      <line
-        x1={C} y1={C}
-        x2={hourTip.x} y2={hourTip.y}
-        stroke="#1565C0" strokeWidth="7" strokeLinecap="round"
-        style={{ cursor: "grab" }}
-        onMouseDown={() => onDragStart("hour")}
-        onTouchStart={() => onDragStart("hour")}
-      />
-      {/* Minute hand */}
-      <line
-        x1={C} y1={C}
-        x2={minTip.x} y2={minTip.y}
-        stroke="#C62828" strokeWidth="4" strokeLinecap="round"
-        style={{ cursor: "grab" }}
-        onMouseDown={() => onDragStart("min")}
-        onTouchStart={() => onDragStart("min")}
-      />
+      {/* ── Minute hand (rendered first = behind hour) ── */}
+      <line x1={C} y1={C} x2={minTip.x} y2={minTip.y}
+        stroke="#C62828" strokeWidth="4" strokeLinecap="round"/>
+      {/* Minute hand cap */}
+      <circle cx={minTip.x} cy={minTip.y} r="6" fill="#C62828"/>
+
+      {/* ── Hour hand (rendered second = always on top) ── */}
+      <line x1={C} y1={C} x2={hourTip.x} y2={hourTip.y}
+        stroke="#1565C0" strokeWidth="8" strokeLinecap="round"/>
+      {/* Hour hand cap */}
+      <circle cx={hourTip.x} cy={hourTip.y} r="8" fill="#1565C0"/>
+
       {/* Center dot */}
-      <circle cx={C} cy={C} r="7" fill="#1565C0"/>
+      <circle cx={C} cy={C} r="8" fill="#1565C0"/>
       <circle cx={C} cy={C} r="4" fill="white"/>
 
-      {/* Drag hints */}
-      <text x={C} y="200" textAnchor="middle" fontSize="9" fill="#90CAF9" fontFamily="Arial">drag the hands!</text>
+      {/* ── Wide invisible hit areas (rendered last so always on top of visuals) ── */}
+      {/* Minute hit zone — along the min hand shaft */}
+      <line x1={C} y1={C} x2={minTip.x} y2={minTip.y}
+        stroke="transparent" strokeWidth="24" strokeLinecap="round"
+        style={{ cursor: "grab" }}
+        onMouseDown={(e) => { e.stopPropagation(); onDragStart("min"); }}
+        onTouchStart={(e) => { e.stopPropagation(); onDragStart("min"); }}
+      />
+      {/* Large tap target at min tip */}
+      <circle cx={minMid.x} cy={minMid.y} r="18" fill="transparent"
+        style={{ cursor: "grab" }}
+        onMouseDown={(e) => { e.stopPropagation(); onDragStart("min"); }}
+        onTouchStart={(e) => { e.stopPropagation(); onDragStart("min"); }}
+      />
+
+      {/* Hour hit zone — along the hour hand shaft (on top of min zones) */}
+      <line x1={C} y1={C} x2={hourTip.x} y2={hourTip.y}
+        stroke="transparent" strokeWidth="28" strokeLinecap="round"
+        style={{ cursor: "grab" }}
+        onMouseDown={(e) => { e.stopPropagation(); onDragStart("hour"); }}
+        onTouchStart={(e) => { e.stopPropagation(); onDragStart("hour"); }}
+      />
+      {/* Large tap target at hour tip */}
+      <circle cx={hourMid.x} cy={hourMid.y} r="20" fill="transparent"
+        style={{ cursor: "grab" }}
+        onMouseDown={(e) => { e.stopPropagation(); onDragStart("hour"); }}
+        onTouchStart={(e) => { e.stopPropagation(); onDragStart("hour"); }}
+      />
+
+      {/* Labels */}
+      <text x="18" y="213" fontSize="9" fill="#1565C0" fontFamily="Arial" fontWeight="bold">HOUR</text>
+      <text x="150" y="213" fontSize="9" fill="#C62828" fontFamily="Arial" fontWeight="bold">MINUTE</text>
     </svg>
   );
 }
@@ -276,8 +299,7 @@ function StarBurst() {
 
 export function PawPatrolMission({ age, childId }: Props) {
   const router = useRouter();
-  const svgRef = useRef<SVGSVGElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const clockRef = useRef<HTMLDivElement>(null);
 
   const missions = shuffle(getMissions(age)).slice(0, 5);
   const [missionIdx, setMissionIdx]     = useState(0);
@@ -296,10 +318,10 @@ export function PawPatrolMission({ age, childId }: Props) {
 
   // ── Drag handling ────────────────────────────────────────────────────────
   const getAngle = useCallback((e: MouseEvent | TouchEvent) => {
-    const wrap = wrapRef.current;
-    if (!wrap) return 0;
-    const rect = wrap.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
+    const el = clockRef.current;
+    if (!el) return 0;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width  / 2;
     const cy = rect.top  + rect.height / 2;
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
@@ -497,12 +519,14 @@ export function PawPatrolMission({ age, childId }: Props) {
         )}
 
         {/* Clock */}
-        <div className="flex justify-center mb-5" ref={wrapRef}>
-          <InteractiveClock
-            hourAngle={hourAngle}
-            minAngle={minAngle}
-            onDragStart={setDragging}
-          />
+        <div className="flex justify-center mb-5">
+          <div ref={clockRef} className="inline-block">
+            <InteractiveClock
+              hourAngle={hourAngle}
+              minAngle={minAngle}
+              onDragStart={setDragging}
+            />
+          </div>
         </div>
 
         {/* Instructions */}
