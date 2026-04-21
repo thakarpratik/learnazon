@@ -14,6 +14,7 @@ const plans = [
     cta: "Get Started Free",
     ctaClass: "btn-secondary",
     href: "/signup",
+    trialNote: null,
     features: [
       "3 activities per day",
       "3 core modules: Math, Time & Spelling",
@@ -23,7 +24,7 @@ const plans = [
     ],
     missing: [
       "7 premium modules",
-      "Parent dashboard",
+      "Adventure mode (Minecraft, Pokémon & more)",
       "Unlimited activities",
       "Weekly email reports",
     ],
@@ -39,12 +40,14 @@ const plans = [
     cardShadow: "#818CF8",
     textColor: "#fff",
     badge: "Most Popular",
-    cta: "Start Pro Free",
+    cta: "Start 7-Day Free Trial",
     ctaClass: "btn-primary",
-    href: "/signup?plan=pro",
+    href: "/signup",
+    trialNote: "7 days free · No credit card required",
     features: [
       "Unlimited activities",
       "All 10 learning modules",
+      "Adventure mode (Minecraft, Pokémon, PAW Patrol & more)",
       "New module every month",
       "Full parent dashboard",
       "Weekly email reports",
@@ -64,9 +67,10 @@ const plans = [
     cardBorder: "#DDD6FE",
     cardShadow: "#DDD6FE",
     textColor: "#fff",
-    cta: "Start Family Free",
+    cta: "Start 7-Day Free Trial",
     ctaClass: "btn-secondary",
-    href: "/signup?plan=family",
+    href: "/signup",
+    trialNote: "7 days free · No credit card required",
     features: [
       "Everything in Pro",
       "Up to 4 child profiles",
@@ -102,6 +106,11 @@ export function PricingSection() {
           <p className="text-lg max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
             Start free, upgrade when you&apos;re ready. Cancel anytime — no tricks, no hidden fees.
           </p>
+          {/* Trial banner */}
+          <div className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-full font-bold text-sm"
+            style={{ background: "linear-gradient(135deg,#FFF9C4,#FFF3CD)", border: "2px solid #F9A825", color: "#92400E" }}>
+            🎉 Every new account gets a <strong>7-day full access trial</strong> — no card needed
+          </div>
         </div>
 
         {/* Pricing cards */}
@@ -171,6 +180,11 @@ export function PricingSection() {
                 <Link href={plan.href} className={`${plan.ctaClass} text-center w-full`}>
                   {plan.cta}
                 </Link>
+                {plan.trialNote && (
+                  <p className="text-center text-xs font-bold mt-2" style={{ color: "var(--muted)" }}>
+                    ⏳ {plan.trialNote}
+                  </p>
+                )}
               </div>
             </article>
           ))}

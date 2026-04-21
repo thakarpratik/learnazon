@@ -19,30 +19,33 @@ const PLANS = [
     headerBg: "bg-gray-50",
     cta: "Get Started Free",
     href: "/signup",
+    trialNote: null as string | null,
     features: [
-      "3 activities per day",
+      "7-day full access trial included",
+      "3 activities per day (after trial)",
       "3 core modules: Math, Time & Spelling",
       "Stars & badges",
       "1 child profile",
       "Basic progress tracking",
     ],
-    missing: ["7 premium modules", "Parent dashboard", "Unlimited activities", "Weekly email reports", "Multiple children"],
+    missing: ["7 premium modules", "Adventure mode", "Unlimited activities", "Weekly email reports", "Multiple children"],
   },
   {
     name: "Pro",
     price: "$7.99",
     period: "per month",
     emoji: "⭐",
-    color: "border-orange-400 ring-2 ring-orange-400",
-    headerBg: "bg-gradient-to-br from-orange-400 to-orange-500",
+    color: "border-indigo-400 ring-2 ring-indigo-400",
+    headerBg: "bg-gradient-to-br from-indigo-500 to-indigo-600",
     headerText: "text-white",
-    cta: "Coming Soon",
+    cta: "Start 7-Day Free Trial",
     href: "/signup",
     badge: "Most Popular",
-    disabled: true,
+    trialNote: "No credit card required",
     features: [
       "Unlimited activities",
       "All 10 learning modules",
+      "Adventure mode (Minecraft, Pokémon, PAW Patrol & more)",
       "New module every month",
       "Full parent dashboard",
       "Weekly email reports",
@@ -60,9 +63,9 @@ const PLANS = [
     color: "border-purple-200",
     headerBg: "bg-gradient-to-br from-purple-400 to-purple-600",
     headerText: "text-white",
-    cta: "Coming Soon",
+    cta: "Start 7-Day Free Trial",
     href: "/signup",
-    disabled: true,
+    trialNote: "No credit card required",
     features: [
       "Everything in Pro",
       "Up to 4 child profiles",
@@ -75,11 +78,12 @@ const PLANS = [
 ];
 
 const FAQS = [
-  { q: "Is Flinchi really free?", a: "Yes! The free plan gives your child access to 3 core learning modules (Math, Time Telling, Spelling) with 3 activities per day. No credit card required." },
-  { q: "When will paid plans be available?", a: "We're focused on making the free experience excellent before introducing paid plans. Sign up for free and you'll be notified when Pro launches." },
-  { q: "Is there a limit on how many children can use the free plan?", a: "The free plan supports 1 child profile. Additional profiles will be available on the Family plan when it launches." },
+  { q: "What's included in the 7-day free trial?", a: "Every new account gets full Pro access for 7 days — all 10 modules, adventure mode, unlimited sessions, and parent dashboard. No credit card needed." },
+  { q: "What happens after the trial ends?", a: "After 7 days you move to the free plan (3 modules, 3 sessions/day) unless you upgrade. You'll get reminder emails at day 5 and day 7 so you're never surprised." },
+  { q: "Is Flinchi free after the trial?", a: "Yes! The free plan gives your child access to Math, Time & Spelling with 3 activities per day — forever, no card required." },
+  { q: "How many children can use the free plan?", a: "The free plan supports 1 child profile. Pro supports 1, and Family supports up to 4 child profiles." },
   { q: "How is my child's data protected?", a: "We are fully COPPA compliant. Children's profiles contain only a nickname and PIN — no email, phone, or personal contact information. See our Privacy Policy for full details." },
-  { q: "Can I cancel at any time?", a: "Absolutely — no contracts, no lock-in. When paid plans launch, you'll be able to cancel anytime from your account settings." },
+  { q: "Can I cancel at any time?", a: "Absolutely — no contracts, no lock-in. Cancel anytime from your account settings and you won't be charged again." },
 ];
 
 export default function PricingPage() {
@@ -90,14 +94,14 @@ export default function PricingPage() {
         {/* Header */}
         <section className="py-16 text-center" style={{ background: "linear-gradient(135deg, #FFF3E8 0%, #FFFBF5 100%)" }}>
           <div className="section-container max-w-3xl">
-            <span className="inline-block bg-green-100 text-green-700 font-bold text-sm rounded-full px-4 py-2 mb-4 border border-green-200">
-              🎉 Completely free while we grow
+            <span className="inline-block bg-yellow-100 text-yellow-800 font-bold text-sm rounded-full px-4 py-2 mb-4 border border-yellow-300">
+              🎉 Every new account gets a 7-day free trial — no card needed
             </span>
             <h1 className="font-fredoka text-5xl md:text-6xl font-bold text-gray-900 mb-4">
               Simple, honest pricing
             </h1>
             <p className="text-xl text-gray-500 max-w-xl mx-auto">
-              Start free — no credit card, no tricks. Paid plans coming once we&apos;ve earned your trust.
+              Try everything free for 7 days. Cancel anytime — no tricks, no hidden fees.
             </p>
           </div>
         </section>
@@ -134,11 +138,12 @@ export default function PricingPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link href={plan.href}
-                      className={`text-center w-full py-4 rounded-full font-bold text-lg transition-all ${plan.disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "btn-primary"}`}
-                      aria-disabled={plan.disabled}>
+                    <Link href={plan.href} className="text-center w-full py-4 rounded-full font-bold text-lg transition-all btn-primary">
                       {plan.cta}
                     </Link>
+                    {plan.trialNote && (
+                      <p className="text-center text-xs text-gray-400 font-semibold mt-2">⏳ {plan.trialNote}</p>
+                    )}
                   </div>
                 </article>
               ))}
@@ -170,9 +175,10 @@ export default function PricingPage() {
         {/* CTA */}
         <section className="py-20 bg-white text-center border-t border-gray-100">
           <div className="section-container max-w-2xl">
-            <h2 className="font-fredoka text-4xl font-bold text-gray-900 mb-4">Start learning today — it&apos;s free</h2>
+            <h2 className="font-fredoka text-4xl font-bold text-gray-900 mb-4">Try everything free for 7 days</h2>
             <p className="text-gray-500 mb-8">No credit card. No commitment. Cancel anytime.</p>
-            <Link href="/signup" className="btn-primary text-xl">Create Free Account 🚀</Link>
+            <Link href="/signup" className="btn-primary text-xl">Start Free Trial 🚀</Link>
+            <p className="text-sm text-gray-400 mt-3 font-semibold">7 days full access · No card needed · Locks to free plan after trial</p>
           </div>
         </section>
       </main>
