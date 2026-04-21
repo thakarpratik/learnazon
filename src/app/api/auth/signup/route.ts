@@ -61,9 +61,10 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await hashPassword(password);
     const emailVerifyToken = randomBytes(32).toString("hex");
+    const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     await prisma.user.create({
-      data: { name, email, passwordHash, plan, emailVerifyToken, marketingOptIn },
+      data: { name, email, passwordHash, plan, emailVerifyToken, marketingOptIn, trialEndsAt },
       select: { id: true },
     });
 

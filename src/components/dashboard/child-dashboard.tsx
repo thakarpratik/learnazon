@@ -170,6 +170,10 @@ export function ChildDashboard() {
   const mascotName     = user?.mascotName ? user.mascotName : theme.animal;
   const favoriteGame   = FAVORITE_GAMES.find((g) => g.id === user?.favoriteGame);
   const isPremium      = user?.plan === "PRO" || user?.plan === "FAMILY";
+  const isTrialing     = !!(user?.isTrialing);
+  const trialDaysLeft  = user?.trialEndsAt
+    ? Math.max(0, Math.ceil((new Date(user.trialEndsAt).getTime() - Date.now()) / 86400000))
+    : 0;
   const dailyLimit     = isPremium ? Infinity : FREE_DAILY_LIMIT;
   const isDark         = DARK_GAME_THEMES.has(user?.favoriteGame ?? "");
   const textColor      = isDark ? "white" : "var(--text)";
@@ -398,6 +402,25 @@ export function ChildDashboard() {
           </div>
         </div>
       </div>
+
+      {/* ── Trial banner ── */}
+      {isTrialing && (
+        <div className="max-w-2xl mx-auto px-4 mb-3">
+          <div className="rounded-[16px] px-4 py-3 flex items-center gap-3"
+            style={{ background: "linear-gradient(135deg,#FFF9C4,#FFF3CD)", border: "2px solid #F9A825" }}>
+            <span className="text-xl">⏳</span>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-sm text-yellow-800">
+                Free trial — <strong>{trialDaysLeft} day{trialDaysLeft !== 1 ? "s" : ""} left</strong> · All features unlocked!
+              </p>
+            </div>
+            <a href="/pricing" className="flex-shrink-0 text-xs font-bold px-3 py-1.5 rounded-xl text-white"
+              style={{ background: "#F9A825", boxShadow: "0 2px 0 #F57F17" }}>
+              Upgrade →
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* ── Module grid ── */}
       <main className="max-w-2xl mx-auto px-4 pb-10" id="main-content">

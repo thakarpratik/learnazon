@@ -13,6 +13,7 @@ interface ExtendedUser {
   id: string; email: string; name?: string;
   role: "parent" | "child";
   plan?: string; age?: number; parentId?: string;
+  isTrialing?: boolean; trialEndsAt?: string | null;
   avatar?: string | null; nickname?: string | null;
   favoriteColor?: string | null; favoriteAnimal?: string | null;
   favoriteGame?: string | null; learningStyle?: string | null;
@@ -25,6 +26,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     role?: string; plan?: string; age?: number; parentId?: string;
+    isTrialing?: boolean; trialEndsAt?: string | null;
     avatar?: string | null; nickname?: string | null;
     favoriteColor?: string | null; favoriteAnimal?: string | null;
     favoriteGame?: string | null; learningStyle?: string | null;
@@ -48,7 +50,10 @@ export const authOptions: NextAuthOptions = {
         const valid = await compare(parsed.data.password, user.passwordHash);
         if (!valid) return null;
         if (!user.emailVerified) throw new Error("EMAIL_NOT_VERIFIED");
-        return { id: user.id, email: user.email, name: user.name ?? undefined, role: "parent", plan: user.plan };
+        const isTrialing = !!(user.trialEndsAt && user.trialEndsAt > new Date());
+        const effectivePlan = isTrialing ? "PRO" : user.plan;
+        return { id: user.id, email: user.email, name: user.name ?? undefined, role: "parent",
+          plan: effectivePlan, isTrialing, trialEndsAt: user.trialEndsAt?.toISOString() ?? null };
       },
     }),
 
@@ -75,12 +80,15 @@ export const authOptions: NextAuthOptions = {
         const valid = await compare(credentials.pin, child.pin);
         if (!valid) return null;
 
-        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true } });
+        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true, trialEndsAt: true } });
+        const isTrialing = !!(parent?.trialEndsAt && parent.trialEndsAt > new Date());
+        const effectivePlan = isTrialing ? "PRO" : (parent?.plan ?? "FREE");
         return {
           id: child.id, name: child.name, nickname: child.nickname,
           email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
-          plan: parent?.plan ?? "FREE",
+          plan: effectivePlan, isTrialing,
+          trialEndsAt: parent?.trialEndsAt?.toISOString() ?? null,
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
           learningStyle: child.learningStyle, mascotName: child.mascotName,
@@ -111,12 +119,15 @@ export const authOptions: NextAuthOptions = {
         // Only allow if this child actually belongs to the requesting parent
         if (!child || child.parentId !== credentials.parentId) return null;
 
-        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true } });
+        const parent = await prisma.user.findUnique({ where: { id: child.parentId }, select: { plan: true, trialEndsAt: true } });
+        const isTrialing = !!(parent?.trialEndsAt && parent.trialEndsAt > new Date());
+        const effectivePlan = isTrialing ? "PRO" : (parent?.plan ?? "FREE");
         return {
           id: child.id, name: child.name, nickname: child.nickname,
           email: `child_${child.id}@flinchi.internal`,
           role: "child", age: child.age, parentId: child.parentId,
-          plan: parent?.plan ?? "FREE",
+          plan: effectivePlan, isTrialing,
+          trialEndsAt: parent?.trialEndsAt?.toISOString() ?? null,
           avatar: child.avatar, favoriteColor: child.favoriteColor,
           favoriteAnimal: child.favoriteAnimal, favoriteGame: child.favoriteGame,
           learningStyle: child.learningStyle, mascotName: child.mascotName,
@@ -131,6 +142,8 @@ export const authOptions: NextAuthOptions = {
         const u = user as ExtendedUser;
         token.role          = u.role;
         token.plan          = u.plan;
+        token.isTrialing    = u.isTrialing;
+        token.trialEndsAt   = u.trialEndsAt;
         token.age           = u.age;
         token.parentId      = u.parentId;
         token.avatar        = u.avatar;
@@ -148,6 +161,8 @@ export const authOptions: NextAuthOptions = {
       u.id            = token.sub ?? "";
       u.role          = (token.role as "parent" | "child") ?? "parent";
       u.plan          = token.plan;
+      u.isTrialing    = token.isTrialing;
+      u.trialEndsAt   = token.trialEndsAt;
       u.age           = token.age;
       u.parentId      = token.parentId;
       u.avatar        = token.avatar;
