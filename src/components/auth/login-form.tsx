@@ -38,6 +38,9 @@ export function LoginForm() {
     if (verifiedParam === "true") {
       setVerified(true);
       if (emailParam) setEmail(decodeURIComponent(emailParam));
+      // Track signup completion in Meta Pixel
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "CompleteRegistration");
     }
     if (params.get("reset") === "true") setPasswordReset(true);
     if (params.get("error") === "invalid-token") {

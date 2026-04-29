@@ -69,7 +69,8 @@ export async function GET(req: NextRequest) {
   </div>
 
   <p style="text-align:center;color:#9ca3af;font-size:12px;margin:0;">
-    Sent by Flinchi · <a href="${appUrl}" style="color:#818CF8;">flinchi.com</a>
+    Sent by Flinchi · <a href="${appUrl}" style="color:#818CF8;">flinchi.com</a><br>
+    You're receiving this because you signed up for Flinchi. · <a href="${appUrl}/account" style="color:#9ca3af;">Manage email preferences</a>
   </p>
 </div></body></html>`,
     });
